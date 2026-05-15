@@ -1,0 +1,50 @@
+<configuration>
+
+    <!-- ===== Console output ===== -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- Timestamp | Thread | Level | Logger | Message -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ===== File logging with daily rotation ===== -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- Main log file -->
+        <file>logs/phonebook.log</file>
+
+        <!-- Rotate logs every day -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Log file name pattern for rotated logs -->
+            <fileNamePattern>logs/phonebook.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <!-- Keep logs for 14 days -->
+            <maxHistory>14</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <!-- Detailed timestamp + level + thread + logger -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ===== Custom log levels for project packages ===== -->
+    <!-- API layer: detailed debugging -->
+    <logger name="com.phonebook.api" level="DEBUG"/>
+
+    <!-- Mobile layer: detailed debugging -->
+    <logger name="com.phonebook.mobile" level="DEBUG"/>
+
+    <!-- Model layer: only important events -->
+    <logger name="com.phonebook.model" level="INFO"/>
+
+    <!-- Utils: detailed debugging -->
+    <logger name="com.phonebook.utils" level="DEBUG"/>
+
+    <!-- ===== Root logger ===== -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>
