@@ -1,4 +1,4 @@
-package com.phonebook.tests.utils;
+package com.phonebook.tests.utils.data_providers;
 
 import com.phonebook.model.Contact;
 import org.slf4j.Logger;

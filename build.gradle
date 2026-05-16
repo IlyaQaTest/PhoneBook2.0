@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id "io.qameta.allure" version "2.11.2"
+    id 'io.qameta.allure' version '2.11.2'
 }
 
 group = 'com.phonebook'
@@ -23,11 +23,13 @@ configurations.all {
 
 dependencies {
     // ===== TestNG + Allure =====
+    implementation 'org.testng:testng:7.11.0'
     testImplementation 'org.testng:testng:7.11.0'
+
     testImplementation 'io.qameta.allure:allure-testng:2.24.0'
     testImplementation 'io.qameta.allure:allure-java-commons:2.24.0'
 
-    // ===== SLF4J + Logback =====
+    // ===== Logging =====
     implementation 'org.slf4j:slf4j-api:2.0.7'
     implementation 'ch.qos.logback:logback-classic:1.4.11'
 
@@ -41,7 +43,10 @@ dependencies {
     // ===== Mobile (Appium) =====
     implementation 'io.appium:java-client:9.2.2'
 
-    // ===== Utils =====
+    // ===== HTTP Client =====
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+
+    // ===== Utilities =====
     implementation 'net.datafaker:datafaker:2.5.2'
     implementation 'commons-io:commons-io:2.18.0'
     implementation 'commons-codec:commons-codec:1.15'

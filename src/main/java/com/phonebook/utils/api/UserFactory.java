@@ -1,4 +1,4 @@
-package com.phonebook.utils;
+package com.phonebook.utils.api;
 
 import com.phonebook.model.User;
 import net.datafaker.Faker;

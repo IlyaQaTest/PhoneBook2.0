@@ -1,7 +1,7 @@
 package com.phonebook.api;
 
 import com.phonebook.model.Contact;
-import com.phonebook.utils.BaseApi;
+import com.phonebook.utils.api.BaseApi;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.slf4j.Logger;

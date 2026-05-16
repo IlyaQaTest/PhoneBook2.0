@@ -1,4 +1,4 @@
-package com.phonebook.utils;
+package com.phonebook.utils.api;
 
 import com.google.gson.Gson;
 

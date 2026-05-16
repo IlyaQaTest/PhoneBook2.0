@@ -6,8 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import com.phonebook.utils.Direction;
-import com.phonebook.utils.SwipeUtils;
+import com.phonebook.utils.api.Direction;
+import com.phonebook.utils.api.SwipeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
