@@ -1,0 +1,37 @@
+2026-05-19 06:06:45 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Authorization successful. Token received.
+2026-05-19 06:15:54 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Authorization successful. Token received.
+2026-05-19 06:15:56 WARN  [Test worker] c.p.tests.api.AddContactApiTests - Error response body: {"timestamp":"2026-05-19T03:15:56","status":400,"error":"Bad Request","message":{"email":"must be a well-formed email address"},"path":"/v1/contacts"}
+2026-05-19 06:15:56 WARN  [Test worker] c.p.tests.api.AddContactApiTests - Invalid email validation test completed.
+2026-05-19 06:15:57 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Request without token returned 403 as expected. Body: 
+2026-05-19 06:15:58 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Wrong MediaType test executed. Server returned 500 (expected 400). Body: {"timestamp":"2026-05-19T03:15:58","status":500,"error":"Internal Server Error","message":"Content type 'text/plain;charset=ISO-8859-1' not supported","path":"/v1/contacts"}
+2026-05-19 06:16:01 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Contact successfully added and verified via ResponseMessageDto.
+2026-05-19 06:18:38 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Authorization successful. Token received.
+2026-05-19 06:18:40 WARN  [Test worker] c.p.tests.api.AddContactApiTests - Error response body: {"timestamp":"2026-05-19T03:18:39","status":400,"error":"Bad Request","message":{"email":"must be a well-formed email address"},"path":"/v1/contacts"}
+2026-05-19 06:18:40 WARN  [Test worker] c.p.tests.api.AddContactApiTests - Invalid email validation test completed.
+2026-05-19 06:18:41 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Request without token returned 403 as expected. Body: 
+2026-05-19 06:18:42 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Wrong MediaType test executed. Server returned 500 (expected 400). Body: {"timestamp":"2026-05-19T03:18:42","status":500,"error":"Internal Server Error","message":"Content type 'text/plain;charset=ISO-8859-1' not supported","path":"/v1/contacts"}
+2026-05-19 06:18:44 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Contact successfully added and verified via ResponseMessageDto.
+2026-05-19 06:21:18 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Authorization successful. Token received.
+2026-05-19 06:21:20 WARN  [Test worker] c.p.tests.api.AddContactApiTests - Error response body: {"timestamp":"2026-05-19T03:21:20","status":400,"error":"Bad Request","message":{"email":"must be a well-formed email address"},"path":"/v1/contacts"}
+2026-05-19 06:21:20 WARN  [Test worker] c.p.tests.api.AddContactApiTests - Invalid email validation test completed.
+2026-05-19 06:21:21 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Request without token returned 403 as expected. Body: 
+2026-05-19 06:21:22 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Wrong MediaType test executed. Server returned 500 (expected 400). Body: {"timestamp":"2026-05-19T03:21:22","status":500,"error":"Internal Server Error","message":"Content type 'text/plain;charset=ISO-8859-1' not supported","path":"/v1/contacts"}
+2026-05-19 06:21:25 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Contact successfully added and verified via ResponseMessageDto.
+2026-05-19 06:29:38 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Authorization successful. Token received.
+2026-05-19 06:29:39 WARN  [Test worker] c.p.tests.api.AddContactApiTests - Error response body: {"timestamp":"2026-05-19T03:29:39","status":400,"error":"Bad Request","message":{"email":"must be a well-formed email address"},"path":"/v1/contacts"}
+2026-05-19 06:29:39 WARN  [Test worker] c.p.tests.api.AddContactApiTests - Invalid email validation test completed.
+2026-05-19 06:29:41 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Request without token returned 403 as expected. Body: 
+2026-05-19 06:29:42 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Wrong MediaType test executed. Server returned 500 (expected 400). Body: {"timestamp":"2026-05-19T03:29:42","status":500,"error":"Internal Server Error","message":"Content type 'text/plain;charset=ISO-8859-1' not supported","path":"/v1/contacts"}
+2026-05-19 06:29:44 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Contact successfully added and verified via ResponseMessageDto.
+2026-05-19 09:24:55 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Authorization successful. Token received.
+2026-05-19 09:24:56 WARN  [Test worker] c.p.tests.api.AddContactApiTests - Error response body: {"timestamp":"2026-05-19T06:24:56","status":400,"error":"Bad Request","message":{"email":"must be a well-formed email address"},"path":"/v1/contacts"}
+2026-05-19 09:24:56 WARN  [Test worker] c.p.tests.api.AddContactApiTests - Invalid email validation test completed.
+2026-05-19 09:24:58 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Request without token returned 403 as expected. Body: 
+2026-05-19 09:24:59 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Wrong MediaType test executed. Server returned 500 (expected 400). Body: {"timestamp":"2026-05-19T06:24:59","status":500,"error":"Internal Server Error","message":"Content type 'text/plain;charset=ISO-8859-1' not supported","path":"/v1/contacts"}
+2026-05-19 09:25:01 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Contact successfully added and verified via ResponseMessageDto.
+2026-05-19 09:33:51 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Authorization successful. Token received.
+2026-05-19 09:33:53 WARN  [Test worker] c.p.tests.api.AddContactApiTests - Error response body: {"timestamp":"2026-05-19T06:33:52","status":400,"error":"Bad Request","message":{"email":"must be a well-formed email address"},"path":"/v1/contacts"}
+2026-05-19 09:33:53 WARN  [Test worker] c.p.tests.api.AddContactApiTests - Invalid email validation test completed.
+2026-05-19 09:33:54 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Request without token returned 403 as expected. Body: 
+2026-05-19 09:33:55 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Wrong MediaType test executed. Server returned 500 (expected 400). Body: {"timestamp":"2026-05-19T06:33:55","status":500,"error":"Internal Server Error","message":"Content type 'text/plain;charset=ISO-8859-1' not supported","path":"/v1/contacts"}
+2026-05-19 09:33:57 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Contact successfully added and verified via ResponseMessageDto.

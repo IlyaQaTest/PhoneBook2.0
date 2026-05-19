@@ -30,7 +30,7 @@
 
     <!-- ===== Custom log levels for project packages ===== -->
     <!-- API layer: detailed debugging -->
-    <logger name="com.phonebook.api" level="DEBUG"/>
+    <logger name="com.phonebook.mobile_manager" level="DEBUG"/>
 
     <!-- Mobile layer: detailed debugging -->
     <logger name="com.phonebook.mobile" level="DEBUG"/>

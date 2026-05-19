@@ -2,7 +2,9 @@ plugins {
     id 'java'
     id 'io.qameta.allure' version '2.11.2'
 }
-
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 group = 'com.phonebook'
 version = '1.0-SNAPSHOT'
 
@@ -12,25 +14,42 @@ repositories {
 
 allure {
     version = '2.24.0'
+    autoconfigure = true
+    aspectjweaver = true
+}
+tasks.register('cleanAllureReport') {
+    doLast {
+        delete "$buildDir/reports/allure-report"
+    }
+}
+
+tasks.named('allureReport') {
+    dependsOn 'cleanAllureReport'
 }
 
 configurations.all {
     resolutionStrategy {
+        failOnVersionConflict()
         force 'org.apache.commons:commons-lang3:3.14.0'
         force 'commons-codec:commons-codec:1.15'
+        force 'org.seleniumhq.selenium:selenium-api:4.25.0'
+        force 'org.seleniumhq.selenium:selenium-remote-driver:4.25.0'
+        force 'org.seleniumhq.selenium:selenium-support:4.25.0'
+        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10'
+        force 'org.slf4j:slf4j-api:2.0.12'
+        force 'org.jetbrains:annotations:17.0.0'
+        force 'org.testng:testng:7.11.0'
     }
 }
 
 dependencies {
     // ===== TestNG + Allure =====
     implementation 'org.testng:testng:7.11.0'
-    testImplementation 'org.testng:testng:7.11.0'
-
     testImplementation 'io.qameta.allure:allure-testng:2.24.0'
     testImplementation 'io.qameta.allure:allure-java-commons:2.24.0'
 
     // ===== Logging =====
-    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation 'org.slf4j:slf4j-api:2.0.12'
     implementation 'ch.qos.logback:logback-classic:1.4.11'
 
     // ===== Selenium =====
@@ -52,13 +71,29 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
 
     // ===== Lombok =====
-    compileOnly 'org.projectlombok:lombok:1.18.28'
-    annotationProcessor 'org.projectlombok:lombok:1.18.28'
-    testCompileOnly 'org.projectlombok:lombok:1.18.28'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+    testCompileOnly 'org.projectlombok:lombok:1.18.32'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    // ===== SQL + Docker =====
+    implementation 'com.mysql:mysql-connector-j:9.7.0'
+    testImplementation 'org.testcontainers:testcontainers:1.19.7'
+    testImplementation 'org.testcontainers:mysql:1.19.7'
 }
 
 tasks.withType(Test).configureEach {
     useTestNG()
-    jvmArgs = ['--add-opens', 'java.base/java.lang=ALL-UNNAMED']
+    jvmArgs = [
+            '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+            '--add-opens', 'java.base/java.util=ALL-UNNAMED',
+            '--add-opens', 'java.base/java.io=ALL-UNNAMED'
+    ]
+    finalizedBy 'allureReport'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }

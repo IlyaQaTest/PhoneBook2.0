@@ -1,0 +1,4 @@
+2026-05-18 22:58:44 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Authorization successful. Token received.
+2026-05-18 22:58:46 WARN  [Test worker] c.p.tests.api.AddContactApiTests - Invalid email validation test completed.
+2026-05-18 22:58:47 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Request without token returned 403 as expected.
+2026-05-18 22:58:49 INFO  [Test worker] c.p.tests.api.AddContactApiTests - Contact successfully added.
