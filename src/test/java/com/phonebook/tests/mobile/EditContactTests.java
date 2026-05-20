@@ -1,0 +1,90 @@
+package com.phonebook.tests.mobile;
+
+import com.phonebook.api.dto.TokenDto;
+import com.phonebook.mobile.screens.ContactListScreen;
+import com.phonebook.mobile.screens.EditContactScreen;
+import com.phonebook.mobile.screens.ErrorScreen;
+import com.phonebook.mobile.screens.LoginRegistrationScreen;
+import com.phonebook.model.Contact;
+import com.phonebook.model.User;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import static com.phonebook.core.config.PropertiesReader.getProperty;
+import static com.phonebook.model.factory.ContactFactory.positiveContact;
+
+/**
+ * Mobile tests for editing contacts via UI.
+ * Verifies that contact updates are correctly reflected in the app.
+ */
+public class EditContactTests extends TestBase {
+
+    private static final Logger logger = LoggerFactory.getLogger(EditContactTests.class);
+
+    private LoginRegistrationScreen loginRegistrationScreen;
+    private ContactListScreen contactListScreen;
+    private EditContactScreen editContactScreen;
+    private final SoftAssert softAssert = new SoftAssert();
+
+    @BeforeMethod
+    @Step("Login before each test and navigate to contact list")
+    public void login() {
+        loginRegistrationScreen = new LoginRegistrationScreen(driver);
+        User user = new User(
+                getProperty("base.properties", "login"),
+                getProperty("base.properties", "password")
+        );
+
+        logger.info("Logging in with user: {}", user.getUsername());
+        loginRegistrationScreen.typeLoginRegistrationForm(user);
+        loginRegistrationScreen.clickBtnLogin();
+
+        contactListScreen = new ContactListScreen(driver);
+    }
+
+    @Test(description = "Positive test: Edit first contact and verify update message")
+    @Step("Edit first contact and verify success message")
+    public void editFirstContactPositiveTest() {
+        Contact contact = positiveContact();
+        logger.info("Editing first contact with new data: {}", contact);
+
+        contactListScreen.editFirstContact();
+        editContactScreen = new EditContactScreen(driver);
+        editContactScreen.typeEditContactForm(contact);
+        editContactScreen.clickBtnUpdate();
+
+        boolean isUpdated = contactListScreen.isTextInMessageContactWasUpdatedPresent("Contact was updated!", 5);
+        logger.info("Contact update message displayed: {}", isUpdated);
+
+        Assert.assertTrue(isUpdated, "Contact update confirmation message not displayed");
+    }
+
+    @Test(description = "Negative test: Attempt to edit contact with empty name and verify error message")
+    @Step("Try to update contact with empty name and verify validation error")
+    @Issue("BUG-210")
+    public void editContactNegativeEmptyNameTest() {
+        logger.info("Starting negative test: edit contact with empty name");
+
+        contactListScreen.editFirstContact();
+        editContactScreen = new EditContactScreen(driver);
+        editContactScreen.clearName();
+        editContactScreen.clickBtnUpdate();
+
+        // Проверка появления ошибки
+        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("not be blank", 5),
+                "Error message for empty name not displayed");
+        logger.warn("Validation failed for empty name");
+
+        // Проверка, что экран редактирования закрылся (адаптация под текущее поведение)
+        Assert.assertFalse(editContactScreen.isEditScreenDisplayed(),
+                "Edit screen should close after validation error");
+        logger.info("Validation error displayed and edit screen closed as per current app behavior");
+    }
+
+}
