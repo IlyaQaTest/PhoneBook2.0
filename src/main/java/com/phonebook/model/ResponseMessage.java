@@ -1,4 +1,4 @@
-package com.phonebook.api.dto;
+package com.phonebook.model;
 
 import lombok.*;
 
@@ -13,7 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @EqualsAndHashCode
-public class ResponseMessageDto {
+public class ResponseMessage {
 
    private Object message; // changed from String to Object
 

@@ -54,7 +54,6 @@ public class TestBase {
 
     /**
      * Waits for an alert to appear, retrieves its text, and closes it.
-     *
      * @return the alert message text
      */
     public String getAlertTextAndClose() {

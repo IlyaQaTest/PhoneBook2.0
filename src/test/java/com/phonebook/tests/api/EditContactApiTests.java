@@ -1,7 +1,7 @@
 package com.phonebook.tests.api;
 
 import com.phonebook.api.client.BaseApi;
-import com.phonebook.api.dto.ResponseMessageDto;
+import com.phonebook.model.ResponseMessage;
 import com.phonebook.api.dto.TokenDto;
 import com.phonebook.model.Contact;
 import com.phonebook.model.User;
@@ -52,8 +52,12 @@ public class EditContactApiTests implements BaseApi {
         try (Response response = editContact(contact)) {
             softAssert.assertEquals(response.code(), 200);
 
-            ResponseMessageDto dto =
-                    GSON.fromJson(response.body().string(), ResponseMessageDto.class);
+            if (response.body() == null) {
+                throw new RuntimeException("Response body is null");
+            }
+
+            ResponseMessage dto =
+                    GSON.fromJson(response.body().string(), ResponseMessage.class);
 
             softAssert.assertTrue(
                     dto.containsMessage("Contact was updated"),
@@ -76,8 +80,12 @@ public class EditContactApiTests implements BaseApi {
         try (Response response = editContact(contact)) {
             softAssert.assertEquals(response.code(), 400);
 
-            ResponseMessageDto dto =
-                    GSON.fromJson(response.body().string(), ResponseMessageDto.class);
+            if (response.body() == null) {
+                throw new RuntimeException("Response body is null");
+            }
+
+            ResponseMessage dto =
+                    GSON.fromJson(response.body().string(), ResponseMessage.class);
 
             softAssert.assertTrue(
                     dto.containsMessage("not found"),
@@ -101,8 +109,12 @@ public class EditContactApiTests implements BaseApi {
         try (Response response = editContact(contact)) {
             softAssert.assertEquals(response.code(), 400);
 
-            ResponseMessageDto dto =
-                    GSON.fromJson(response.body().string(), ResponseMessageDto.class);
+            if (response.body() == null) {
+                throw new RuntimeException("Response body is null");
+            }
+
+            ResponseMessage dto =
+                    GSON.fromJson(response.body().string(), ResponseMessage.class);
 
             softAssert.assertTrue(
                     dto.containsMessage("must not be blank"),

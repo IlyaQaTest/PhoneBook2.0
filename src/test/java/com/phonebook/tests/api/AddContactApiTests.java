@@ -1,7 +1,7 @@
 package com.phonebook.tests.api;
 
 import com.phonebook.api.client.BaseApi;
-import com.phonebook.api.dto.ResponseMessageDto;
+import com.phonebook.model.ResponseMessage;
 import com.phonebook.model.Contact;
 import com.phonebook.model.User;
 import com.phonebook.model.factory.UserBuilder;
@@ -73,17 +73,17 @@ public class AddContactApiTests implements BaseApi {
         softAssert.assertEquals(response.statusCode(), 200, "Expected status code 200");
 
         // Safe parsing of ResponseMessageDto
-        ResponseMessageDto responseMessageDto = null;
+        ResponseMessage responseMessage = null;
         try {
-            responseMessageDto = GSON.fromJson(response.body().asString(), ResponseMessageDto.class);
+            responseMessage = GSON.fromJson(response.body().asString(), ResponseMessage.class);
         } catch (Exception e) {
-            logger.error("Failed to parse ResponseMessageDto: " + e.getMessage());
+            logger.error("Failed to parse ResponseMessageDto: {}", e.getMessage());
         }
 
-        if (responseMessageDto != null) {
-            softAssert.assertTrue(responseMessageDto.toString().contains("Contact was added"), "Response message mismatch");
+        if (responseMessage != null) {
+            softAssert.assertTrue(responseMessage.toString().contains("Contact was added"), "Response message mismatch");
         } else {
-            logger.warn("ResponseMessageDto is null. Raw body: " + response.body().asString());
+            logger.warn("ResponseMessageDto is null. Raw body: {}", response.body().asString());
         }
 
         softAssert.assertAll();
@@ -107,7 +107,7 @@ public class AddContactApiTests implements BaseApi {
                 .response();
 
         softAssert.assertEquals(response.statusCode(), 400, "Expected 400 for invalid email");
-        logger.warn("Error response body: " + response.asString());
+        logger.warn("Error response body: {}", response.asString());
 
         softAssert.assertTrue(response.asString().contains("must be a well-formed email address"),
                 "Error message mismatch. Got: " + response.asString());
@@ -133,7 +133,7 @@ public class AddContactApiTests implements BaseApi {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(response.statusCode(), 401, "Expected 401 for invalid token");
 
-        logger.debug("Received expected 401 for invalid token. Body: " + response.asString());
+        logger.debug("Received expected 401 for invalid token. Body: {}", response.asString());
         softAssert.assertAll();
     }
 
@@ -153,7 +153,7 @@ public class AddContactApiTests implements BaseApi {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(response.statusCode(), 403, "Expected 403 for missing token");
 
-        logger.info("Request without token returned 403 as expected. Body: " + response.asString());
+        logger.info("Request without token returned 403 as expected. Body: {}", response.asString());
         softAssert.assertAll();
     }
 

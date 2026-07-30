@@ -1,7 +1,7 @@
 package com.phonebook.tests.api;
 
 import com.phonebook.api.client.BaseApi;
-import com.phonebook.api.dto.ResponseMessageDto;
+import com.phonebook.model.ResponseMessage;
 import com.phonebook.api.dto.TokenDto;
 import com.phonebook.model.Contact;
 import com.phonebook.model.User;
@@ -54,8 +54,8 @@ public class DeleteContactApiTests implements BaseApi {
             softAssert.assertEquals(response.code(), 200, "Status code should be 200");
 
             if (response.body() != null) {
-                ResponseMessageDto dto =
-                        GSON.fromJson(response.body().string(), ResponseMessageDto.class);
+                ResponseMessage dto =
+                        GSON.fromJson(response.body().string(), ResponseMessage.class);
 
                 softAssert.assertTrue(
                         dto.containsMessage("Contact was deleted"),
@@ -77,8 +77,8 @@ public class DeleteContactApiTests implements BaseApi {
             softAssert.assertEquals(response.code(), 400, "Should return 400 for non-existent ID");
 
             if (response.body() != null) {
-                ResponseMessageDto dto =
-                        GSON.fromJson(response.body().string(), ResponseMessageDto.class);
+                ResponseMessage dto =
+                        GSON.fromJson(response.body().string(), ResponseMessage.class);
 
                 softAssert.assertTrue(
                         dto.containsMessage("not found"),

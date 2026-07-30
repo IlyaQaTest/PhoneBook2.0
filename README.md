@@ -42,7 +42,7 @@ src/
 │    │         ├── ui/                      ← Web UI automation (Selenium)
 │    │         ├── core/                    ← Shared utilities and configs
 │    │         ├── model/                   ← Business models + factories
-│    │         ├── db/                      ← Database utilities
+│    │         ├── dbintegrationtests/                      ← Database utilities
 │    │         └── docker/                  ← Docker configs
 │    │
 │    └── resources/

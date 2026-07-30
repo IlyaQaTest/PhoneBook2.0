@@ -32,6 +32,8 @@ configurations.all {
         failOnVersionConflict()
         force 'org.apache.commons:commons-lang3:3.14.0'
         force 'commons-codec:commons-codec:1.15'
+        force 'commons-io:commons-io:2.18.0'
+        force 'org.apache.commons:commons-compress:1.26.0'
         force 'org.seleniumhq.selenium:selenium-api:4.25.0'
         force 'org.seleniumhq.selenium:selenium-remote-driver:4.25.0'
         force 'org.seleniumhq.selenium:selenium-support:4.25.0'
@@ -83,7 +85,9 @@ dependencies {
 }
 
 tasks.withType(Test).configureEach {
-    useTestNG()
+    useTestNG() {
+        suites 'src/test/resources/smoke_tests.xml'
+    }
     jvmArgs = [
             '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
             '--add-opens', 'java.base/java.util=ALL-UNNAMED',

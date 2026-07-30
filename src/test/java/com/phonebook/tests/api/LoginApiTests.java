@@ -1,7 +1,7 @@
 package com.phonebook.tests.api;
 
 import com.phonebook.api.client.BaseApi;
-import com.phonebook.api.dto.ResponseMessageDto;
+import com.phonebook.model.ResponseMessage;
 import com.phonebook.api.dto.TokenDto;
 import com.phonebook.model.User;
 import okhttp3.Request;
@@ -26,10 +26,11 @@ public class LoginApiTests implements BaseApi {
                 getProperty("base.properties", "password")
         );
 
-        try (Response response = postRequest(BASE_URL + LOGIN_URL, GSON.toJson(user), null)) {
+        try (Response response = postRequest(GSON.toJson(user))) {
             softAssert.assertEquals(response.code(), 200, "Expected 200 for successful login");
 
-            TokenDto token = GSON.fromJson(response.body().string(), TokenDto.class);
+            String responseBody = response.body() != null ? response.body().string() : null;
+            TokenDto token = GSON.fromJson(responseBody, TokenDto.class);
             softAssert.assertNotNull(token.getToken(), "Token should not be null");
         }
 
@@ -47,10 +48,11 @@ public class LoginApiTests implements BaseApi {
                 "wrongPassword"
         );
 
-        try (Response response = postRequest(BASE_URL + LOGIN_URL, GSON.toJson(user), null)) {
+        try (Response response = postRequest(GSON.toJson(user))) {
             softAssert.assertEquals(response.code(), 401, "Expected 401 for invalid password");
 
-            ResponseMessageDto dto = GSON.fromJson(response.body().string(), ResponseMessageDto.class);
+            String responseBody = response.body() != null ? response.body().string() : null;
+            ResponseMessage dto = GSON.fromJson(responseBody, ResponseMessage.class);
 
             softAssert.assertTrue(
                     dto.containsMessage("Login or Password incorrect"),
@@ -69,10 +71,11 @@ public class LoginApiTests implements BaseApi {
 
         User user = new User("", "");
 
-        try (Response response = postRequest(BASE_URL + LOGIN_URL, GSON.toJson(user), null)) {
+        try (Response response = postRequest(GSON.toJson(user))) {
             softAssert.assertEquals(response.code(), 401, "Expected 401 for empty fields");
 
-            ResponseMessageDto dto = GSON.fromJson(response.body().string(), ResponseMessageDto.class);
+            String responseBody = response.body() != null ? response.body().string() : null;
+            ResponseMessage dto = GSON.fromJson(responseBody, ResponseMessage.class);
 
             softAssert.assertTrue(
                     dto.containsMessage("Login or Password incorrect"),
@@ -83,11 +86,11 @@ public class LoginApiTests implements BaseApi {
         softAssert.assertAll();
     }
 
-    private Response postRequest(String url, String json, String authToken) throws IOException {
-        Request.Builder builder = new Request.Builder()
-                .url(url)
-                .post(RequestBody.create(json, JSON));
-        if (authToken != null) builder.addHeader(AUTH, authToken);
-        return OK_HTTP_CLIENT.newCall(builder.build()).execute();
+    private Response postRequest(String json) throws IOException {
+        Request request = new Request.Builder()
+                .url(BASE_URL + LOGIN_URL)
+                .post(RequestBody.create(json, JSON))
+                .build();
+        return OK_HTTP_CLIENT.newCall(request).execute();
     }
 }

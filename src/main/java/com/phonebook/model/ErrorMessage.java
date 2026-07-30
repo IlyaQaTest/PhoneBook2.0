@@ -1,4 +1,4 @@
-package com.phonebook.api.dto;
+package com.phonebook.model;
 
 import lombok.*;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ErrorMessageDto {
+public class ErrorMessage {
     private String timestamp;
     private int status;
     private String error;

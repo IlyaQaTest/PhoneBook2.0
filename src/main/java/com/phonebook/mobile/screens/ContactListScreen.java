@@ -50,8 +50,6 @@ public class ContactListScreen extends BaseScreen implements SwipeUtils {
     @AndroidFindBy(id = "com.sheygam.contactapp:id/emptyTxt")
     private WebElement noContacts;
 
-    @AndroidFindBy(xpath = "(//*[@resource-id='com.sheygam.contactapp:id/rowContainer'])")
-    private List<WebElement> contactListScreen;
 
     @AndroidFindBy(xpath = "//android.widget.Toast[@text='Contact was updated!']")
     private WebElement messageContactWasUpdated;
@@ -66,7 +64,7 @@ public class ContactListScreen extends BaseScreen implements SwipeUtils {
     private WebElement rowName;
 
     public void clickRowName(String rowName) {
-        logger.info("Clicking row name " + rowName);
+        logger.info("Clicking row name {}", rowName);
         WebElement rowNameElement = driver.findElement(By.id(rowName));
         rowNameElement.click();
     }
@@ -179,7 +177,7 @@ public class ContactListScreen extends BaseScreen implements SwipeUtils {
         logger.info("Editing first contact");
         new WebDriverWait(driver, Duration.ofSeconds(2))
                 .until(ExpectedConditions.visibilityOf(btnPlus));
-        swipeInsideElement(driver, contactListScreen.get(0), Direction.LEFT);
+        swipeInsideElement(driver, contactRows.get(0), Direction.LEFT);
     }
     /**
      * Returns the name of the contact at the specified index.

@@ -3,7 +3,7 @@ package com.phonebook.tests.mobile;
 import com.phonebook.api.client.AuthenticationController;
 import com.phonebook.api.client.BaseApi;
 import com.phonebook.api.client.ContactController;
-import com.phonebook.api.dto.ContactsDto;
+import com.phonebook.model.ContactsList;
 import com.phonebook.api.dto.TokenDto;
 import com.phonebook.mobile.screens.AddNewContactScreen;
 import com.phonebook.mobile.screens.ContactListScreen;
@@ -32,7 +32,7 @@ public class DeleteContactTests extends TestBase {
     private ContactListScreen contactListScreen;
     private AddNewContactScreen addNewContactScreen;
     private TokenDto tokenDto;
-    private ContactsDto contactsDtoBeforeDelete;
+    private ContactsList contactsListBeforeDelete;
 
     @BeforeMethod
     public void login() {
@@ -49,13 +49,13 @@ public class DeleteContactTests extends TestBase {
         logger.info("API response: {}", response.getStatusLine());
 
         if (response.getStatusCode() == 200) {
-            contactsDtoBeforeDelete = response.as(ContactsDto.class);
-            if (contactsDtoBeforeDelete.getContacts().isEmpty()) {
+            contactsListBeforeDelete = response.as(ContactsList.class);
+            if (contactsListBeforeDelete.getContacts().isEmpty()) {
                 logger.info("No contacts found — adding one for test setup");
                 ContactController.requestAddNewContact(contact, tokenDto.getToken());
-                contactsDtoBeforeDelete = ContactController
+                contactsListBeforeDelete = ContactController
                         .requestGetAllUserContacts(tokenDto.getToken())
-                        .as(ContactsDto.class);
+                        .as(ContactsList.class);
             }
         }
 
@@ -69,14 +69,14 @@ public class DeleteContactTests extends TestBase {
 
     @Test(description = "Delete middle contact and verify via API")
     public void deleteMiddleContactTest() {
-        int sizeBeforeDelete = contactsDtoBeforeDelete.getContacts().size();
+        int sizeBeforeDelete = contactsListBeforeDelete.getContacts().size();
         logger.info("Initial contact count: {}", sizeBeforeDelete);
 
         contactListScreen.deleteContactMiddle();
 
         int sizeAfterDelete = ContactController
                 .requestGetAllUserContacts(tokenDto.getToken())
-                .as(ContactsDto.class)
+                .as(ContactsList.class)
                 .getContacts()
                 .size();
 
@@ -86,14 +86,14 @@ public class DeleteContactTests extends TestBase {
 
     @Test(description = "Delete first contact and verify via API")
     public void deleteFirstContactTest() {
-        int sizeBeforeDelete = contactsDtoBeforeDelete.getContacts().size();
+        int sizeBeforeDelete = contactsListBeforeDelete.getContacts().size();
         logger.info("Initial contact count: {}", sizeBeforeDelete);
 
         contactListScreen.deleteFirstContact();
 
         int sizeAfterDelete = ContactController
                 .requestGetAllUserContacts(tokenDto.getToken())
-                .as(ContactsDto.class)
+                .as(ContactsList.class)
                 .getContacts()
                 .size();
 
@@ -114,7 +114,7 @@ public class DeleteContactTests extends TestBase {
 
         int sizeBeforeDelete = ContactController
                 .requestGetAllUserContacts(tokenDto.getToken())
-                .as(ContactsDto.class)
+                .as(ContactsList.class)
                 .getContacts()
                 .size();
 
@@ -122,7 +122,7 @@ public class DeleteContactTests extends TestBase {
 
         int sizeAfterDelete = ContactController
                 .requestGetAllUserContacts(tokenDto.getToken())
-                .as(ContactsDto.class)
+                .as(ContactsList.class)
                 .getContacts()
                 .size();
 

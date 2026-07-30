@@ -1,6 +1,5 @@
-package com.phonebook.api.dto;
+package com.phonebook.model;
 
-import com.phonebook.model.Contact;
 import lombok.*;
 
 import java.util.List;
@@ -15,6 +14,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContactsDto {
+public class ContactsList {
     private List<Contact> contacts;
 }

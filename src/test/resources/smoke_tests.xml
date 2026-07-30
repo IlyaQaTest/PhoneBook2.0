@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="suite1" verbose="1">
+    <test name="smoke_tests">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.phonebook.tests.ui.AddNewContactTests"/>
+            <class name="com.phonebook.tests.ui.DeleteContactTests"/>
+            <class name="com.phonebook.tests.ui.EditContactTests"/>
+            <class name="com.phonebook.tests.ui.LoginTests"/>
+            <class name="com.phonebook.tests.ui.RegistrationTests"/>
+        </classes>
+    </test>
+</suite>

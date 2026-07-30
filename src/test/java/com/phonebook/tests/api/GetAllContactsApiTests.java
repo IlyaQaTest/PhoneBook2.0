@@ -4,8 +4,8 @@ import io.qameta.allure.Issue;
 import io.qameta.allure.Description;
 import com.phonebook.api.client.BaseApi;
 import com.phonebook.api.client.ILogin;
-import com.phonebook.api.dto.ContactsDto;
-import com.phonebook.api.dto.ErrorMessageDto;
+import com.phonebook.model.ContactsList;
+import com.phonebook.model.ErrorMessage;
 import com.phonebook.api.dto.TokenDto;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -41,10 +41,10 @@ public class GetAllContactsApiTests implements BaseApi, ILogin {
 
             if (response.body() != null) {
                 String body = response.body().string();
-                ContactsDto contactsDto = GSON.fromJson(body, ContactsDto.class);
+                ContactsList contactsList = GSON.fromJson(body, ContactsList.class);
 
-                Assert.assertNotNull(contactsDto, "Contacts list should not be null");
-                Assert.assertTrue(contactsDto.getContacts() != null && !contactsDto.getContacts().isEmpty(),
+                Assert.assertNotNull(contactsList, "Contacts list should not be null");
+                Assert.assertTrue(contactsList.getContacts() != null && !contactsList.getContacts().isEmpty(),
                         "Contacts list should not be empty");
             } else {
                 Assert.fail("Response body is empty");
@@ -71,12 +71,12 @@ public class GetAllContactsApiTests implements BaseApi, ILogin {
 
             if (response.body() != null) {
                 String body = response.body().string();
-                ErrorMessageDto errorMessageDto = GSON.fromJson(body, ErrorMessageDto.class);
+                ErrorMessage errorMessage = GSON.fromJson(body, ErrorMessage.class);
 
-                softAssert.assertEquals(errorMessageDto.getError(), "Unauthorized", "Error field mismatch");
-                softAssert.assertTrue(String.valueOf(errorMessageDto.getMessage())
+                softAssert.assertEquals(errorMessage.getError(), "Unauthorized", "Error field mismatch");
+                softAssert.assertTrue(String.valueOf(errorMessage.getMessage())
                                 .contains("strings must contain exactly 2 period characters."),
-                        "Unexpected error message: " + errorMessageDto.getMessage());
+                        "Unexpected error message: " + errorMessage.getMessage());
             } else {
                 softAssert.fail("Response body is empty, expected error message");
             }
