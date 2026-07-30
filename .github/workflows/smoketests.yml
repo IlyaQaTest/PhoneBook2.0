@@ -10,7 +10,7 @@ jobs:
   automation-tests:
     runs-on: ubuntu-latest
 
-    # Service container for MySQL Database (Block 1)
+    # Service container for MySQL Database
     services:
       mysql:
         image: mysql:8.0
@@ -26,13 +26,13 @@ jobs:
           --health-retries=3
 
     steps:
-      # Step 1: Check out repository code
+      # Step 1: Check out repository code (Updated to v4)
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # Step 2: Set up Java JDK 17
+      # Step 2: Set up Java JDK 17 (Updated to v4)
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -45,19 +45,19 @@ jobs:
       # Step 4: Import database schema into MySQL container
       - name: Initialize Database Schema
         run: |
-          mysql -h 127.0.0.1 -P 3306 -u root -pRoot1234 phonebook < docker/init.sql
+          mysql -h 127.0.0.1 -P 3306 -u root -pRoot1234 phonebook < src/main/java/com/phonebook/docker/init.sql
 
       # Step 5: Execute API & Database Tests
       - name: Run API and Database Tests
         run: ./gradlew test --tests "com.phonebook.tests.api.*"
 
-      # Step 6: Execute Web UI Tests (Headless Chrome - Block 2)
+      # Step 6: Execute Web UI Tests (Headless Chrome)
       - name: Run Web UI Tests
         run: ./gradlew test --tests "com.phonebook.tests.ui.*"
         env:
           HEADLESS: true
 
-      # Step 7: Set up Node.js & Appium Server for Mobile Tests (Block 3)
+      # Step 7: Set up Node.js & Appium Server for Mobile Tests
       - name: Install Appium Server & UiAutomator2 Driver
         run: |
           npm install -g appium
@@ -72,10 +72,10 @@ jobs:
           api-level: 29
           script: ./gradlew test --tests "com.phonebook.tests.mobile.*"
 
-      # Step 9: Upload Test Reports as Artifacts
+      # Step 9: Upload Test Reports as Artifacts (Updated to v4)
       - name: Upload Test Reports
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: gradle-test-reports
           path: build/reports/tests/test/
