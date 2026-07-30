@@ -57,25 +57,31 @@ jobs:
         env:
           HEADLESS: true
 
-      # Step 7: Set up Node.js & Appium Server for Mobile Tests
-      - name: Install Appium Server & UiAutomator2 Driver
+      # Step 7: Install Appium Server & UiAutomator2 Driver
+      - name: Install Appium Server & Driver
         run: |
           npm install -g appium
           appium driver install uiautomator2
-          appium --log-timestamp --log-no-colors > appium.log 2>&1 &
-          sleep 5
 
-      # Step 8: Run Mobile Tests on Android Emulator
+      # Step 8: Start Emulator, Launch Appium, and Run Mobile Tests
       - name: Run Mobile Tests on Android Emulator
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew test --tests "com.phonebook.tests.mobile.**"
+          target: default
+          arch: x86
+          profile: pixel
+          script: |
+            nohup appium --log-timestamp --log-no-colors > appium.log 2>&1 &
+            sleep 10
+            ./gradlew test --tests "com.phonebook.tests.mobile.**"
 
-      # Step 9: Upload Test Reports as Artifacts
+      # Step 9: Upload Test Reports & Appium Logs
       - name: Upload Test Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: gradle-test-reports
-          path: build/reports/tests/test/
+          path: |
+            build/reports/tests/test/
+            appium.log
