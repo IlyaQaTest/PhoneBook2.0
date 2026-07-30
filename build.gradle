@@ -2,9 +2,11 @@ plugins {
     id 'java'
     id 'io.qameta.allure' version '2.11.2'
 }
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
 group = 'com.phonebook'
 version = '1.0-SNAPSHOT'
 
@@ -17,6 +19,7 @@ allure {
     autoconfigure = true
     aspectjweaver = true
 }
+
 tasks.register('cleanAllureReport') {
     doLast {
         delete "$buildDir/reports/allure-report"
@@ -85,9 +88,11 @@ dependencies {
 }
 
 tasks.withType(Test).configureEach {
-    useTestNG() {
-        suites 'src/test/resources/smoke_tests.xml'
-    }
+    useTestNG()
+
+    // Pass system properties to test JVM (e.g., -Dheadless=true or -Dbrowser=chrome)
+    systemProperties System.properties
+
     jvmArgs = [
             '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
             '--add-opens', 'java.base/java.util=ALL-UNNAMED',
