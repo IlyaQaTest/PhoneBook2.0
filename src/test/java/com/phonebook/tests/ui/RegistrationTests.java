@@ -68,7 +68,7 @@ public class RegistrationTests extends AppManager {
         User user = new User("mir" + i + "@gmailcom", "Password123$");
         loginPage.typeLoginRegistrationFormWithUser(user);
         loginPage.clickBtnRegistrationForm();
-        Assert.assertTrue(loginPage.closeAlertReturnText().contains("Wrong email or password format"));
+        Assert.assertTrue(loginPage.getAlertTextAndClose().contains("Wrong email or password format"));
     }
 
     @Test
