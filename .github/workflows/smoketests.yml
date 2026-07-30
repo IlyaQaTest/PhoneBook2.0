@@ -26,11 +26,11 @@ jobs:
           --health-retries=3
 
     steps:
-      # Step 1: Check out repository code (Updated to v4)
+      # Step 1: Check out repository code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Java JDK 17 (Updated to v4)
+      # Step 2: Set up Java JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -49,11 +49,11 @@ jobs:
 
       # Step 5: Execute API & Database Tests
       - name: Run API and Database Tests
-        run: ./gradlew test --tests "com.phonebook.tests.api.*"
+        run: ./gradlew test --tests "com.phonebook.tests.api.**" --tests "com.phonebook.mydb.tests.**"
 
       # Step 6: Execute Web UI Tests (Headless Chrome)
       - name: Run Web UI Tests
-        run: ./gradlew test --tests "com.phonebook.tests.ui.*"
+        run: ./gradlew test --tests "com.phonebook.tests.ui.**"
         env:
           HEADLESS: true
 
@@ -70,9 +70,9 @@ jobs:
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew test --tests "com.phonebook.tests.mobile.*"
+          script: ./gradlew test --tests "com.phonebook.tests.mobile.**"
 
-      # Step 9: Upload Test Reports as Artifacts (Updated to v4)
+      # Step 9: Upload Test Reports as Artifacts
       - name: Upload Test Reports
         if: always()
         uses: actions/upload-artifact@v4
