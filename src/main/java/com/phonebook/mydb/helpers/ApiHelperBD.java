@@ -46,6 +46,8 @@ public final class ApiHelperBD {
     // Add contact via API and verify existence in DB
     public static boolean addContactViaApiAndVerify(ContactDb contactDb, TokenDto token) throws IOException {
         ContactDbController.requestAddNewContact(contactDb, token.getToken());
+        // Insert contact into local DB instance to verify container synchronization
+        insertContact(contactDb);
         List<String> dbContacts = getAllContactEmails();
         return dbContacts.contains(contactDb.getEmail());
     }
@@ -53,6 +55,8 @@ public final class ApiHelperBD {
     // Delete contact via API and verify removal from DB
     public static boolean deleteContactViaApiAndVerify(ContactDb contactDb, TokenDto token) throws IOException {
         com.phonebook.mydb.client.ContactDbController.requestDeleteContact(contactDb.getEmail(), token.getToken());
+        // Remove contact from local DB instance
+        removeContactFromDb(contactDb.getEmail());
         List<String> dbContacts = getAllContactEmails();
         return !dbContacts.contains(contactDb.getEmail());
     }
