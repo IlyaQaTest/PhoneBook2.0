@@ -66,9 +66,18 @@ public class AppManager {
             case "chrome":
             default:
                 ChromeOptions options = new ChromeOptions();
-                if (System.getenv("GITHUB_ACTIONS") != null) {
-                    options.addArguments("--headless=new", "--no-sandbox", "--disable-dev-shm-usage",
-                            "--window-size=1920,1080", "--disable-gpu", "--remote-allow-origins=*");
+                // Check: running in GitHub Actions OR via the -Dheadless=true flag from the console
+                boolean isHeadless = System.getenv("GITHUB_ACTIONS") != null || Boolean.getBoolean("headless");
+
+                if (isHeadless) {
+                    options.addArguments(
+                            "--headless=new",
+                            "--no-sandbox",
+                            "--disable-dev-shm-usage",
+                            "--window-size=1920,1080",
+                            "--disable-gpu",
+                            "--remote-allow-origins=*"
+                    );
                 }
                 driver = new ChromeDriver(options);
                 break;
