@@ -1,6 +1,7 @@
 name: PhoneBook 2.0 Automation Pipeline
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main, master ]
   pull_request:
@@ -69,13 +70,15 @@ jobs:
         with:
           api-level: 29
           target: default
-          arch: x86
+          arch: x86_64
           profile: pixel
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
             nohup appium --base-path /wd/hub --log-timestamp --log-no-colors > appium.log 2>&1 &
             echo "Waiting for Appium server to start..."
             timeout 30 sh -c 'until curl -s http://127.0.0.1:4723/wd/hub/status; do sleep 2; done'
-            ./gradlew test --tests "com.phonebook.tests.mobile.**"
+            ./gradlew test --tests "com.phonebook.tests.mobile.**" -DappiumUrl="http://127.0.0.1:4723/wd/hub" -DappPath="src/test/resources/phonebook.apk"
 
       # Step 9: Upload Test Reports & Appium Logs
       - name: Upload Test Reports
