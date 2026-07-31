@@ -21,7 +21,7 @@ public class TestBase {
 
     protected static final Logger logger = LoggerFactory.getLogger(TestBase.class);
 
-    protected static AppiumDriver driver;
+    protected AppiumDriver driver;
     protected WebDriverWait wait;
     protected LoginRegistrationScreen loginRegistrationScreen;
     protected ContactListScreen contactListScreen;
@@ -44,7 +44,7 @@ public class TestBase {
         contactListScreen = new ContactListScreen(driver);
     }
 
-    @AfterMethod(enabled = false)
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
         if (driver != null) {
             logger.info("Closing Appium session and quitting driver...");
