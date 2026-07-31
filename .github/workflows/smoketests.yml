@@ -72,8 +72,9 @@ jobs:
           arch: x86
           profile: pixel
           script: |
-            nohup appium --log-timestamp --log-no-colors > appium.log 2>&1 &
-            sleep 10
+            nohup appium --base-path /wd/hub --log-timestamp --log-no-colors > appium.log 2>&1 &
+            echo "Waiting for Appium server to start..."
+            timeout 30 sh -c 'until curl -s http://127.0.0.1:4723/wd/hub/status; do sleep 2; done'
             ./gradlew test --tests "com.phonebook.tests.mobile.**"
 
       # Step 9: Upload Test Reports & Appium Logs

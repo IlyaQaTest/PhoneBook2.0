@@ -34,20 +34,20 @@ jobs:
         run: |
           npm install -g appium
           appium driver install uiautomator2
-
-      # Step 5: Start Emulator, Launch Appium, and Run Mobile Tests
-      - name: Run Mobile Tests on Android Emulator
-        uses: ReactiveCircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          target: default
-          arch: x86
-          profile: pixel
-          script: |
-            nohup appium --base-path /wd/hub --log-timestamp --log-no-colors > appium.log 2>&1 &
-            echo "Waiting for Appium server to start..."
-            timeout 30 sh -c 'until curl -s http://127.0.0.1:4723/wd/hub/status; do sleep 2; done'
-            ./gradlew test --tests "com.phonebook.tests.mobile.**"
+          
+          # Step 5: Start Emulator, Launch Appium, and Run Mobile Tests
+          - name: Run Mobile Tests on Android Emulator
+            uses: ReactiveCircus/android-emulator-runner@v2
+            with:
+              api-level: 29
+              target: default
+              arch: x86
+              profile: pixel
+              script: |
+                nohup appium --base-path /wd/hub --log-timestamp --log-no-colors > appium.log 2>&1 &
+                echo "Waiting for Appium server to start..."
+                timeout 30 sh -c 'until curl -s http://127.0.0.1:4723/wd/hub/status; do sleep 2; done'
+                ./gradlew test --tests "com.phonebook.tests.mobile.**" -DappiumUrl="http://127.0.0.1:4723/wd/hub" -DappPath="src/test/resources/phonebook.apk"
 
       # Step 6: Upload Test Reports & Appium Logs
       - name: Upload Test Reports
