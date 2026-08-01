@@ -1,6 +1,7 @@
 package com.phonebook.mobile.screens;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.HidesKeyboard;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -33,13 +34,14 @@ public class UpdateContactScreen extends BaseScreen {
     }
 
     /**
-     * Types a new name into the contact name field.
+     * Types a new name into the contact name field and hides the soft keyboard.
      *
      * @param name the new contact name
      */
     public void typeName(String name) {
         logger.info("Typing new contact name: {}", name);
-        inputName.sendKeys(name);
+        type(inputName, name);
+        hideKeyboardSafely();
     }
 
     /**
@@ -47,6 +49,21 @@ public class UpdateContactScreen extends BaseScreen {
      */
     public void clickUpdateBtn() {
         logger.info("Clicking 'Update' button to save contact changes");
-        btnUpdate.click();
+        hideKeyboardSafely();
+        click(btnUpdate);
+    }
+
+    /**
+     * Safely hides the soft keyboard if it is currently visible.
+     */
+    private void hideKeyboardSafely() {
+        try {
+            if (driver instanceof HidesKeyboard) {
+                ((HidesKeyboard) driver).hideKeyboard();
+                logger.debug("Soft keyboard hidden successfully");
+            }
+        } catch (Exception e) {
+            logger.debug("Soft keyboard was not open or could not be hidden: {}", e.getMessage());
+        }
     }
 }

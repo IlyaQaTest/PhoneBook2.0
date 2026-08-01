@@ -30,6 +30,12 @@ public class AppiumConfig {
      */
     public static AndroidDriver createAppiumDriver(String fileName) {
         String appiumUrl = getValue(fileName, "appiumUrl");
+
+        // Normalize URL for Appium 2.x / 3.x compatibility
+        if (appiumUrl.endsWith("/wd/hub") || appiumUrl.endsWith("/wd/hub/")) {
+            appiumUrl = appiumUrl.replace("/wd/hub", "");
+        }
+
         String platformName = getValue(fileName, "os");
         String automationName = getValue(fileName, "automationName");
         String deviceName = getValue(fileName, "deviceName");

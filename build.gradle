@@ -3,33 +3,39 @@ plugins {
     id 'io.qameta.allure' version '2.11.2'
 }
 
+group = 'com.phonebook'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
-
-group = 'com.phonebook'
-version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
+// ===== Allure Configuration =====
 allure {
     version = '2.24.0'
     autoconfigure = true
     aspectjweaver = true
 }
 
-tasks.register('cleanAllureReport') {
-    doLast {
-        delete "$buildDir/reports/allure-report"
-    }
+tasks.register('cleanAllureReport', Delete) {
+    delete layout.buildDirectory.dir('reports/allure-report')
 }
 
 tasks.named('allureReport') {
     dependsOn 'cleanAllureReport'
 }
 
+// ===== Strict Dependency Resolution =====
 configurations.all {
     resolutionStrategy {
         failOnVersionConflict()
@@ -49,9 +55,10 @@ configurations.all {
 
 dependencies {
     // ===== TestNG + Allure =====
+    // Сделано доступным для src/main/java:
     implementation 'org.testng:testng:7.11.0'
+    implementation 'io.qameta.allure:allure-java-commons:2.24.0'
     testImplementation 'io.qameta.allure:allure-testng:2.24.0'
-    testImplementation 'io.qameta.allure:allure-java-commons:2.24.0'
 
     // ===== Logging =====
     implementation 'org.slf4j:slf4j-api:2.0.12'
@@ -87,10 +94,11 @@ dependencies {
     testImplementation 'org.testcontainers:mysql:1.19.7'
 }
 
+// ===== Test Task Settings =====
 tasks.withType(Test).configureEach {
     useTestNG()
 
-    // Pass system properties to test JVM (e.g., -Dheadless=true or -Dbrowser=chrome)
+    // Проброс системных свойств в JVM тестов
     systemProperties System.properties
 
     jvmArgs = [
@@ -99,10 +107,4 @@ tasks.withType(Test).configureEach {
             '--add-opens', 'java.base/java.io=ALL-UNNAMED'
     ]
     finalizedBy 'allureReport'
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
 }

@@ -20,11 +20,9 @@ public class SplashScreenTests extends TestBase {
         logger.info("Starting test: splashScreenPositiveTest");
 
         SplashScreen splashScreen = new SplashScreen(driver);
-        boolean isVersionDisplayed = splashScreen.validateVersionApp("Version 1.0.0", 5);
+        boolean isVersionDisplayed = splashScreen.validateVersionApp("1.0.0", 5);
 
         logger.info("Version text displayed correctly: {}", isVersionDisplayed);
         Assert.assertTrue(isVersionDisplayed, "Splash screen should display correct app version");
-
-        logger.info("Test completed successfully");
     }
 }

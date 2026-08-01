@@ -1,6 +1,5 @@
 package com.phonebook.tests.mobile;
 
-import com.phonebook.api.dto.TokenDto;
 import com.phonebook.mobile.screens.ContactListScreen;
 import com.phonebook.mobile.screens.EditContactScreen;
 import com.phonebook.mobile.screens.ErrorScreen;
@@ -14,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 import static com.phonebook.core.config.PropertiesReader.getProperty;
 import static com.phonebook.model.factory.ContactFactory.positiveContact;
@@ -27,10 +25,7 @@ public class EditContactTests extends TestBase {
 
     private static final Logger logger = LoggerFactory.getLogger(EditContactTests.class);
 
-    private LoginRegistrationScreen loginRegistrationScreen;
-    private ContactListScreen contactListScreen;
     private EditContactScreen editContactScreen;
-    private final SoftAssert softAssert = new SoftAssert();
 
     @BeforeMethod
     @Step("Login before each test and navigate to contact list")
@@ -76,15 +71,10 @@ public class EditContactTests extends TestBase {
         editContactScreen.clearName();
         editContactScreen.clickBtnUpdate();
 
-        // Проверка появления ошибки
         Assert.assertTrue(new ErrorScreen(driver).validateTextInError("not be blank", 5),
                 "Error message for empty name not displayed");
-        logger.warn("Validation failed for empty name");
 
-        // Проверка, что экран редактирования закрылся (адаптация под текущее поведение)
         Assert.assertFalse(editContactScreen.isEditScreenDisplayed(),
                 "Edit screen should close after validation error");
-        logger.info("Validation error displayed and edit screen closed as per current app behavior");
     }
-
 }

@@ -3,8 +3,10 @@ package com.phonebook.mobile.screens;
 import com.phonebook.model.Contact;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.HidesKeyboard;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.qameta.allure.Step;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -48,31 +50,38 @@ public class EditContactScreen extends BaseScreen {
 
     /**
      * Fills the edit contact form with updated data.
+     * Hides the software keyboard before accessing elements at the bottom of the screen.
      *
      * @param contact the contact object containing new details
      */
+    @Step("Fill Edit Contact form with name: {contact.name}")
     public void typeEditContactForm(Contact contact) {
-        logger.info("Editing contact: {}", contact.getName());
-        inputName.sendKeys(contact.getName());
-        inputLastName.sendKeys(contact.getLastName());
-        inputEmail.sendKeys(contact.getEmail());
-        inputPhone.sendKeys(contact.getPhone());
-        inputAddress.sendKeys(contact.getAddress());
-        inputDescription.sendKeys(contact.getDescription());
+        logger.info("Editing contact form for: {}", contact.getName());
+        type(inputName, contact.getName());
+        type(inputLastName, contact.getLastName());
+        type(inputEmail, contact.getEmail());
+        type(inputPhone, contact.getPhone());
+        type(inputAddress, contact.getAddress());
+
+        // Hide soft keyboard to expose inputDescription
+        hideKeyboardSafely();
+
+        type(inputDescription, contact.getDescription());
     }
 
     /**
      * Clicks the "Update" button to save changes.
      */
+    @Step("Click 'Update' button")
     public void clickBtnUpdate() {
         logger.info("Clicking 'Update' button to save contact changes");
-        btnUpdate.click();
+        hideKeyboardSafely();
+        click(btnUpdate);
     }
 
     public void clickFieldInputName() {
-        inputName.click();
+        click(inputName);
     }
-
 
     @Step("Check if error message '{expectedText}' is displayed on screen")
     public boolean isErrorMessageDisplayed(String expectedText) {
@@ -84,7 +93,7 @@ public class EditContactScreen extends BaseScreen {
             String actualText = errorElement.getText();
             logger.info("Error message displayed: {}", actualText);
             return actualText.toLowerCase().contains(expectedText.toLowerCase());
-        } catch (Exception e) {
+        } catch (TimeoutException e) {
             logger.warn("Error message not found or not visible: {}", e.getMessage());
             return false;
         }
@@ -92,32 +101,26 @@ public class EditContactScreen extends BaseScreen {
 
     @Step("Check if Edit Contact screen is still displayed")
     public boolean isEditScreenDisplayed() {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            WebElement updateButton = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(AppiumBy.id("com.sheygam.contactapp:id/buttonUpdate"))
-            );
-            return updateButton.isDisplayed();
-        } catch (Exception e) {
-            logger.warn("Edit Contact screen not visible: {}", e.getMessage());
-            return false;
-        }
+        return isElementPresent(btnUpdate, 10);
     }
 
     @Step("Clear the Name field on Edit Contact screen")
     public void clearName() {
+        logger.info("Clearing Name field");
+        inputName.clear();
+    }
+
+    /**
+     * Safely hides the soft keyboard if it is currently visible.
+     */
+    private void hideKeyboardSafely() {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            WebElement nameField = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(
-                            AppiumBy.id("com.sheygam.contactapp:id/inputName")
-                    )
-            );
-            nameField.clear();
-            logger.info("Name field cleared successfully");
+            if (driver instanceof HidesKeyboard) {
+                ((HidesKeyboard) driver).hideKeyboard();
+                logger.debug("Soft keyboard hidden successfully");
+            }
         } catch (Exception e) {
-            logger.error("Failed to clear Name field: {}", e.getMessage());
-            throw new RuntimeException("Unable to clear Name field", e);
+            logger.debug("Soft keyboard was not open or could not be hidden: {}", e.getMessage());
         }
     }
 }

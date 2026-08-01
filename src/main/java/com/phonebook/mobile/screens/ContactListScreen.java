@@ -4,7 +4,9 @@ import com.phonebook.core.enums.Direction;
 import com.phonebook.mobile.helpers.SwipeUtils;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -38,21 +40,11 @@ public class ContactListScreen extends BaseScreen implements SwipeUtils {
     @AndroidFindBy(id = "com.sheygam.contactapp:id/rowContainer")
     private List<WebElement> contactRows;
 
-    @AndroidFindBy(xpath = "//android.widget.Toast[@text='Contact was added!']")
-    private WebElement messageContactWasAdded;
-
-    @AndroidFindBy(xpath = "//android.widget.ImageButton[@content-desc='add']")
-    private WebElement btnPlus;
-
     @AndroidFindBy(id = "android:id/button1")
     private WebElement btnYes;
 
     @AndroidFindBy(id = "com.sheygam.contactapp:id/emptyTxt")
     private WebElement noContacts;
-
-
-    @AndroidFindBy(xpath = "//android.widget.Toast[@text='Contact was updated!']")
-    private WebElement messageContactWasUpdated;
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@resource-id='com.sheygam.contactapp:id/title' and @text='Logout']")
     private WebElement btnLogout;
@@ -60,54 +52,43 @@ public class ContactListScreen extends BaseScreen implements SwipeUtils {
     @AndroidFindBy(xpath = "//android.widget.TextView[@resource-id='com.sheygam.contactapp:id/title' and @text='Date picker']")
     private WebElement datePicker;
 
-    @AndroidFindBy(id = "com.sheygam.contactapp:id/rowName")
-    private WebElement rowName;
-
-    public void clickRowName(String rowName) {
-        logger.info("Clicking row name {}", rowName);
-        WebElement rowNameElement = driver.findElement(By.id(rowName));
-        rowNameElement.click();
+    @Step("Click on contact name: {nameText}")
+    public void clickRowName(String nameText) {
+        logger.info("Clicking contact with name: {}", nameText);
+        WebElement contact = driver.findElement(By.xpath("//*[@text='" + nameText + "']"));
+        click(contact);
     }
 
+    @Step("Click 'Date Picker'")
     public void clickDatePicker() {
-        logger.info("Clicking 'Date Picker' button");
-        datePicker.click();
+        logger.info("Clicking 'Date Picker' option");
+        click(datePicker);
     }
 
+    @Step("Click 'Logout' button")
     public void clickBtnLogout() {
         logger.info("Clicking 'Logout' button");
-        btnLogout.click();
+        click(btnLogout);
     }
 
+    @Step("Click 'More Options' menu")
     public void clickMoreOptions() {
         logger.info("Opening 'More Options' menu");
-        moreOptions.click();
+        click(moreOptions);
     }
 
+    @Step("Click '+' button to add contact")
     public void clickBtnPlus() {
         logger.info("Clicking 'Add Contact' button");
-        addContactBtn.click();
+        click(addContactBtn);
     }
 
     public boolean isBtnPlusPresent() {
-        try {
-            new WebDriverWait(driver, Duration.ofSeconds(10))
-                    .until(ExpectedConditions.visibilityOf(addContactBtn));
-            return true;
-        } catch (Exception e) {
-            logger.warn("Add Contact button not found: {}", e.getMessage());
-            return false;
-        }
+        return isElementPresent(addContactBtn, 10);
     }
 
     public boolean isContactListDisplayed() {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-            return wait.until(ExpectedConditions.visibilityOf(title)).isDisplayed();
-        } catch (Exception e) {
-            logger.warn("Contact list title not visible: {}", e.getMessage());
-            return false;
-        }
+        return isElementPresent(title, 15);
     }
 
     public boolean isContactListEmpty() {
@@ -121,75 +102,93 @@ public class ContactListScreen extends BaseScreen implements SwipeUtils {
                     By.xpath("//*[@text='" + expectedText + "']")
             ));
             return element.isDisplayed();
-        } catch (Exception e) {
+        } catch (TimeoutException e) {
             logger.warn("Text '{}' not found on Contact List screen: {}", expectedText, e.getMessage());
             return false;
         }
     }
 
-    public boolean isTextInMessageContactWasAddedPresent(String text, int time) {
-        return isTextInElementPresent(messageContactWasAdded, text, time);
-    }
-
-    public void deleteContactMiddle() {
-        logger.info("Deleting middle contact");
-        new WebDriverWait(driver, Duration.ofSeconds(2))
-                .until(ExpectedConditions.visibilityOf(btnPlus));
-        swipeScreen(driver, Direction.RIGHT);
-        btnYes.click();
-    }
-
-    public void deleteFirstContact() {
-        logger.info("Deleting first contact");
-        new WebDriverWait(driver, Duration.ofSeconds(2))
-                .until(ExpectedConditions.visibilityOf(btnPlus));
-        swipeInsideElementDelete(driver, contactRows.get(0));
-        btnYes.click();
-    }
-
-    public WebElement getContact(int index) {
-        return contactRows.get(index);
-    }
-
-    public void deleteLastContact() {
-        if (contactRows.isEmpty()) {
-            throw new RuntimeException("No contacts found");
+    /**
+     * Verifies presence of dynamic Toast messages safely.
+     * Uses direct android.widget.Toast class lookup to catch short-lived system toasts.
+     *
+     * @param toastText        expected substring in the Toast notification
+     * @param timeoutInSeconds maximum wait time in seconds
+     * @return true if the Toast message was detected in DOM, false otherwise
+     */
+    public boolean isToastMessagePresent(String toastText, int timeoutInSeconds) {
+        logger.debug("Waiting for toast message containing text: {}", toastText);
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
+            wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.xpath("//android.widget.Toast[contains(@text, '" + toastText + "')]")
+            ));
+            logger.info("Toast message containing '{}' was successfully found", toastText);
+            return true;
+        } catch (TimeoutException e) {
+            logger.warn("Toast message containing '{}' was not displayed within {} seconds", toastText, timeoutInSeconds);
+            return false;
         }
-        logger.info("Deleting last contact");
+    }
+
+    public boolean isTextInMessageContactWasAddedPresent(String text, int time) {
+        return isToastMessagePresent(text, time);
+    }
+
+    public boolean isTextInMessageContactWasUpdatedPresent(String text, int time) {
+        return isToastMessagePresent(text, time);
+    }
+
+    @Step("Delete first contact from list")
+    public void deleteFirstContact() {
+        logger.info("Deleting first contact (swiping LEFT to RIGHT)");
+        waitForContactListNotEmpty();
+        swipeInsideElement(driver, contactRows.get(0), Direction.RIGHT);
+        click(btnYes);
+    }
+
+    @Step("Delete middle contact from list")
+    public void deleteContactMiddle() {
+        waitForContactListNotEmpty();
+        int middleIndex = contactRows.size() / 2;
+        logger.info("Deleting middle contact at index {} (swiping LEFT to RIGHT)", middleIndex);
+        swipeInsideElement(driver, contactRows.get(middleIndex), Direction.RIGHT);
+        click(btnYes);
+    }
+
+    @Step("Delete last contact from list")
+    public void deleteLastContact() {
+        waitForContactListNotEmpty();
+        logger.info("Deleting last contact (swiping LEFT to RIGHT)");
         WebElement last = contactRows.get(contactRows.size() - 1);
-        swipeInsideElementDelete(driver, last);
-        btnYes.click();
+        swipeInsideElement(driver, last, Direction.RIGHT);
+        click(btnYes);
+    }
+
+    @Step("Edit first contact")
+    public void editFirstContact() {
+        logger.info("Editing first contact (swiping RIGHT to LEFT)");
+        waitForContactListNotEmpty();
+        swipeInsideElement(driver, contactRows.get(0), Direction.LEFT);
     }
 
     public void waitForContactListNotEmpty() {
         logger.debug("Waiting for contact list to be populated");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(d -> !contactRows.isEmpty());
     }
 
-
-
-    public boolean isTextInMessageContactWasUpdatedPresent(String text, int time) {
-        return isTextInElementPresent(messageContactWasUpdated, text, time);
-    }
-
-    public void editFirstContact() {
-        logger.info("Editing first contact");
-        new WebDriverWait(driver, Duration.ofSeconds(2))
-                .until(ExpectedConditions.visibilityOf(btnPlus));
-        swipeInsideElement(driver, contactRows.get(0), Direction.LEFT);
-    }
-    /**
-     * Returns the name of the contact at the specified index.
-     * Used for UI validation in mobile tests.
-     */
     public String getContactName(int index) {
         logger.info("Getting contact name at index {}", index);
+        waitForContactListNotEmpty();
         By contactNameLocator = By.id("com.sheygam.contactapp:id/rowName");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        List<WebElement> contacts = wait.until(
-                ExpectedConditions.visibilityOfAllElementsLocatedBy(contactNameLocator)
-        );
+        List<WebElement> contacts = driver.findElements(contactNameLocator);
         return contacts.get(index).getText();
+    }
+
+    public WebElement getContact(int index) {
+        logger.info("Getting contact WebElement at index {}", index);
+        waitForContactListNotEmpty();
+        return contactRows.get(index);
     }
 }

@@ -3,14 +3,16 @@ package com.phonebook.tests.mobile;
 import com.phonebook.mobile.config.AppiumConfig;
 import com.phonebook.mobile.screens.ContactListScreen;
 import com.phonebook.mobile.screens.LoginRegistrationScreen;
-import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+
 import java.time.Duration;
 
 /**
@@ -21,7 +23,7 @@ public class TestBase {
 
     protected static final Logger logger = LoggerFactory.getLogger(TestBase.class);
 
-    protected AppiumDriver driver;
+    protected AndroidDriver driver;
     protected WebDriverWait wait;
     protected LoginRegistrationScreen loginRegistrationScreen;
     protected ContactListScreen contactListScreen;
@@ -29,17 +31,13 @@ public class TestBase {
     @BeforeMethod
     public void setup() {
         logger.info("Initializing Appium driver...");
-        driver = AppiumConfig.createAppiumDriver("pixel.properties");
 
-        logger.info("Driver created. Waiting 2 seconds for SplashActivity to stabilize...");
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            logger.warn("Setup wait interrupted: {}", e.getMessage());
-        }
+        // Allows overriding configFile via system property -DconfigFile=pixel.properties
+        String configFile = System.getProperty("configFile", "pixel.properties");
+        driver = AppiumConfig.createAppiumDriver(configFile);
 
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
         loginRegistrationScreen = new LoginRegistrationScreen(driver);
         contactListScreen = new ContactListScreen(driver);
     }
@@ -54,6 +52,7 @@ public class TestBase {
 
     /**
      * Waits for an alert to appear, retrieves its text, and closes it.
+     *
      * @return the alert message text
      */
     public String getAlertTextAndClose() {
@@ -63,5 +62,25 @@ public class TestBase {
         alert.accept();
         logger.info("Alert closed. Text: {}", text);
         return text;
+    }
+
+    /**
+     * Checks if a Toast message with the expected text is displayed on the screen.
+     *
+     * @param toastText expected text in the Toast notification
+     * @param timeout   wait timeout in seconds
+     * @return true if the Toast is present, false otherwise
+     */
+    public boolean isToastPresent(String toastText, int timeout) {
+        try {
+            logger.info("Waiting for Toast message containing: '{}'", toastText);
+            WebDriverWait customWait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+            return customWait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.xpath("//android.widget.Toast[contains(@text,'" + toastText + "')]")
+            )).isDisplayed();
+        } catch (Exception e) {
+            logger.warn("Toast message with text '{}' was not found within {} seconds", toastText, timeout);
+            return false;
+        }
     }
 }

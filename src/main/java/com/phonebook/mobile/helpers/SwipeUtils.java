@@ -15,7 +15,7 @@ import java.util.Collections;
 
 /**
  * Utility interface providing swipe actions for mobile automation.
- * Supports screen-level and element-level swipes in multiple directions.
+ * Supports screen-level and element-level swipes in multiple directions using W3C Actions.
  */
 public interface SwipeUtils {
 
@@ -85,38 +85,38 @@ public interface SwipeUtils {
             default -> throw new IllegalArgumentException("Invalid direction: " + direction);
         }
 
-        logger.info("Performing swipe {} inside element {}", direction, element);
+        logger.info("Performing swipe {} inside element", direction);
         performSwipe(driver, startX, middleY, endX, middleY);
     }
 
     /**
-     * Performs a swipe gesture from right edge to center (used for update actions).
+     * Performs a short swipe gesture from right to center inside an element (used for update actions).
      */
     default void swipeInsideElementUpdate(AppiumDriver driver, WebElement element) {
         Rectangle rect = element.getRect();
-        int startX = rect.x + rect.width - 20;
-        int endX = rect.x + rect.width / 2;
+        int startX = rect.x + (int) (rect.width * 0.9);
+        int endX = rect.x + (int) (rect.width * 0.5);
         int middleY = rect.y + rect.height / 2;
 
-        logger.info("Performing update swipe inside element {}", element);
+        logger.info("Performing update swipe inside element");
         performSwipe(driver, startX, middleY, endX, middleY);
     }
 
     /**
-     * Performs a swipe gesture from left edge to center (used for delete actions).
+     * Performs a full swipe gesture across an element from right to left (used for delete actions).
      */
     default void swipeInsideElementDelete(AppiumDriver driver, WebElement element) {
         Rectangle rect = element.getRect();
-        int startX = rect.x + rect.width - 10; // closer to right edge
-        int endX = rect.x + (int) (rect.width * 0.1); // swipe almost to left edge
+        int startX = rect.x + (int) (rect.width * 0.9);
+        int endX = rect.x + (int) (rect.width * 0.1);
         int middleY = rect.y + rect.height / 2;
 
-        logger.info("Performing full update swipe inside element {}", element);
+        logger.info("Performing delete swipe inside element");
         performSwipe(driver, startX, middleY, endX, middleY);
     }
 
     /**
-     * Helper method to perform swipe gesture using pointer input.
+     * Helper method to perform swipe gesture using W3C pointer input.
      */
     private void performSwipe(AppiumDriver driver, int startX, int startY, int endX, int endY) {
         PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");

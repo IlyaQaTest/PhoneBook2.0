@@ -23,8 +23,6 @@ public class UpdateContactTests extends TestBase {
 
     private static final Logger logger = LoggerFactory.getLogger(UpdateContactTests.class);
 
-    private LoginRegistrationScreen loginRegistrationScreen;
-    private ContactListScreen contactListScreen;
     private AddNewContactScreen addNewContactScreen;
     private UpdateContactScreen updateContactScreen;
 
@@ -50,7 +48,6 @@ public class UpdateContactTests extends TestBase {
     public void updateContactPositiveTest() {
         logger.info("Starting test: updateContactPositiveTest");
 
-        // 1. Ensure at least one contact exists
         if (contactListScreen.isContactListEmpty()) {
             logger.info("No contacts found — creating one for test setup");
             contactListScreen.clickBtnPlus();
@@ -60,11 +57,9 @@ public class UpdateContactTests extends TestBase {
             contactListScreen.waitForContactListNotEmpty();
         }
 
-        // 2. Get old name from first contact
         String oldName = contactListScreen.getContactName(0);
         logger.info("Old contact name: {}", oldName);
 
-        // 3. Update contact name via UI
         contactListScreen.swipeInsideElementUpdate(driver, contactListScreen.getContact(0));
         updateContactScreen = new UpdateContactScreen(driver);
 
@@ -73,12 +68,9 @@ public class UpdateContactTests extends TestBase {
         updateContactScreen.typeName(newName);
         updateContactScreen.clickUpdateBtn();
 
-        // 4. Verify update on screen (ignore surname)
         String updatedName = contactListScreen.getContactName(0);
         logger.info("Updated contact name: {}", updatedName);
         Assert.assertTrue(updatedName.startsWith(newName),
                 "Contact name was not updated correctly!");
-
-        logger.info("Test completed successfully");
     }
 }

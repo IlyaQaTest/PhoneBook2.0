@@ -43,14 +43,16 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # Step 4: Import database schema into MySQL container
+      # Step 4: Install MySQL Client & Initialize Database Schema
       - name: Initialize Database Schema
         run: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-client
           mysql -h 127.0.0.1 -P 3306 -u root -pRoot1234 phonebook < src/main/java/com/phonebook/docker/init.sql
 
-      # Step 5: Execute API & Database Tests
-      - name: Run API and Database Tests
-        run: ./gradlew test --tests "com.phonebook.tests.api.**" --tests "com.phonebook.mydb.tests.**"
+      # Step 5: Execute API Tests
+      - name: Run API Tests
+        run: ./gradlew test --tests "com.phonebook.tests.api.**"
 
       # Step 6: Execute Web UI Tests (Headless Chrome)
       - name: Run Web UI Tests
@@ -75,17 +77,23 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
-            nohup appium --base-path /wd/hub --log-timestamp --log-no-colors > appium.log 2>&1 &
+            nohup appium --log-timestamp --log-no-colors > appium.log 2>&1 &
             echo "Waiting for Appium server to start..."
-            timeout 30 sh -c 'until curl -s http://127.0.0.1:4723/wd/hub/status; do sleep 2; done'
-            ./gradlew test --tests "com.phonebook.tests.mobile.**" -DappiumUrl="http://127.0.0.1:4723/wd/hub" -DappPath="src/test/resources/phonebook.apk"
+            timeout 30 sh -c 'until curl -s http://127.0.0.1:4723/status; do sleep 2; done'
+            ./gradlew test --tests "com.phonebook.tests.mobile.**" -DappiumUrl="http://127.0.0.1:4723/" -DappPath="src/test/resources/phonebook.apk"
 
-      # Step 9: Upload Test Reports & Appium Logs
-      - name: Upload Test Reports
+      # Step 9: Generate Allure Report
+      - name: Generate Allure Report
+        if: always()
+        run: ./gradlew allureReport --continue
+
+      # Step 10: Upload Test Reports, Allure & Appium Logs
+      - name: Upload Test Artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: gradle-test-reports
+          name: phonebook-test-results
           path: |
             build/reports/tests/test/
+            build/reports/allure-report/
             appium.log

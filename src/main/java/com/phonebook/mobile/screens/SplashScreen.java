@@ -1,10 +1,15 @@
 package com.phonebook.mobile.screens;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.pagefactory.AndroidFindBy;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.Duration;
 
 /**
  * Represents the splash screen of the mobile application.
@@ -18,18 +23,26 @@ public class SplashScreen extends BaseScreen {
         super(driver);
     }
 
-    @AndroidFindBy(xpath = "//*[contains(@text, '1.0.0')]")
-    private WebElement versionApp;
-
     /**
-     * Validates that the specified version text is displayed on the splash screen.
+     * Dynamically validates that the specified version text is displayed on the splash screen.
      *
-     * @param text  the expected version text
+     * @param text  the expected version text (e.g. "1.0.0")
      * @param time  timeout in seconds
      * @return true if the version text is present, false otherwise
      */
     public boolean validateVersionApp(String text, int time) {
         logger.info("Validating app version text: '{}'", text);
-        return isTextInElementPresent(versionApp, text, time);
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(time));
+            WebElement versionElement = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(
+                            AppiumBy.xpath("//*[contains(@text, '" + text + "')]")
+                    )
+            );
+            return versionElement.isDisplayed();
+        } catch (TimeoutException e) {
+            logger.warn("Version text '{}' not found on splash screen: {}", text, e.getMessage());
+            return false;
+        }
     }
 }

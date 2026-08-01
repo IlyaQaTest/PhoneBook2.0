@@ -10,6 +10,7 @@ import io.qameta.allure.Step;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -23,28 +24,49 @@ import static com.phonebook.model.factory.ContactFactory.positiveContact;
 public class AddNewContactTests extends TestBase {
 
     private static final Logger logger = LoggerFactory.getLogger(AddNewContactTests.class);
+    private static final String APP_PACKAGE = "com.sheygam.contactapp";
 
-    private LoginRegistrationScreen loginRegistrationScreen;
-    private ContactListScreen contactListScreen;
     private AddNewContactScreen addNewContactScreen;
 
     @BeforeMethod
-    @Step("Login before each test and navigate to Add New Contact screen")
-    public void login() {
+    @Step("Ensure user is logged in and navigate to Add New Contact screen")
+    public void setUp() {
+        ErrorScreen errorScreen = new ErrorScreen(driver);
+        if (errorScreen.isErrorDisplayed()) {
+            logger.info("Dismissing leftover error dialog before starting test");
+            errorScreen.clickBtnErrorOk();
+        }
+
         loginRegistrationScreen = new LoginRegistrationScreen(driver);
-        User user = new User(
-                getProperty("base.properties", "login_1"),
-                getProperty("base.properties", "password_1")
-        );
-
-        logger.info("Logging in with user: {}", user.getUsername());
-        loginRegistrationScreen.typeLoginRegistrationForm(user);
-        loginRegistrationScreen.clickBtnLogin();
-
         contactListScreen = new ContactListScreen(driver);
-        contactListScreen.clickBtnPlus();
 
+        if (loginRegistrationScreen.isLoginRegistrationFormDisplayed()) {
+            User user = new User(
+                    getProperty("base.properties", "login_1"),
+                    getProperty("base.properties", "password_1")
+            );
+
+            logger.info("Logging in with user: {}", user.getUsername());
+            loginRegistrationScreen.typeLoginRegistrationForm(user);
+            loginRegistrationScreen.clickBtnLogin();
+        }
+
+        contactListScreen.clickBtnPlus();
         addNewContactScreen = new AddNewContactScreen(driver);
+    }
+
+    @AfterMethod
+    @Step("Reset application state after each test")
+    public void postCondition() {
+        if (driver != null) {
+            try {
+                driver.terminateApp(APP_PACKAGE);
+                driver.activateApp(APP_PACKAGE);
+                logger.info("Application successfully restarted in postCondition");
+            } catch (Exception e) {
+                logger.warn("Failed to restart application in postCondition: {}", e.getMessage());
+            }
+        }
     }
 
     @Test(description = "Positive test: Add a new contact successfully")
@@ -56,7 +78,6 @@ public class AddNewContactTests extends TestBase {
 
         Assert.assertTrue(contactListScreen.isTextInMessageContactWasAddedPresent("Contact was added", 5),
                 "Contact creation message not displayed");
-        logger.info("Contact '{}' added successfully", contact.getName());
     }
 
     @Test(description = "Negative test: Invalid phone length")
@@ -67,9 +88,10 @@ public class AddNewContactTests extends TestBase {
         addNewContactScreen.typeContactForm(contact);
         addNewContactScreen.clickBtnCreate();
 
-        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("min 10, max 15!", 5),
+        ErrorScreen errorScreen = new ErrorScreen(driver);
+        Assert.assertTrue(errorScreen.validateTextInError("min 10, max 15!", 5),
                 "Error message for invalid phone length not displayed");
-        logger.warn("Validation failed for phone length");
+        errorScreen.clickBtnErrorOk();
     }
 
     @Test(description = "Negative test: Empty name field")
@@ -80,9 +102,10 @@ public class AddNewContactTests extends TestBase {
         addNewContactScreen.typeContactForm(contact);
         addNewContactScreen.clickBtnCreate();
 
-        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("not be blank", 5),
+        ErrorScreen errorScreen = new ErrorScreen(driver);
+        Assert.assertTrue(errorScreen.validateTextInError("not be blank", 5),
                 "Error message for empty name not displayed");
-        logger.warn("Validation failed for empty name");
+        errorScreen.clickBtnErrorOk();
     }
 
     @Test(description = "Negative test: Empty last name field")
@@ -93,9 +116,10 @@ public class AddNewContactTests extends TestBase {
         addNewContactScreen.typeContactForm(contact);
         addNewContactScreen.clickBtnCreate();
 
-        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("not be blank", 5),
+        ErrorScreen errorScreen = new ErrorScreen(driver);
+        Assert.assertTrue(errorScreen.validateTextInError("not be blank", 5),
                 "Error message for empty last name not displayed");
-        logger.warn("Validation failed for empty last name");
+        errorScreen.clickBtnErrorOk();
     }
 
     @Test(description = "Negative test: Empty address field")
@@ -106,48 +130,37 @@ public class AddNewContactTests extends TestBase {
         addNewContactScreen.typeContactForm(contact);
         addNewContactScreen.clickBtnCreate();
 
-        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("not be blank", 5),
+        ErrorScreen errorScreen = new ErrorScreen(driver);
+        Assert.assertTrue(errorScreen.validateTextInError("not be blank", 5),
                 "Error message for empty address not displayed");
-        logger.warn("Validation failed for empty address");
+        errorScreen.clickBtnErrorOk();
     }
 
     @Test(description = "Negative test: Empty phone field")
     @Step("Try to add contact with empty phone and verify error message")
     public void addContactNegative_EmptyPhoneTest() {
-        Contact contact = Contact.builder()
-                .name("Ivan")
-                .lastName("Ivanov")
-                .phone("")
-                .email("ivan@mail.com")
-                .address("Haifa")
-                .description("QA")
-                .build();
-
+        Contact contact = positiveContact();
+        contact.setPhone("");
         addNewContactScreen.typeContactForm(contact);
         addNewContactScreen.clickBtnCreate();
 
-        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("min 10, max 15!", 5),
+        ErrorScreen errorScreen = new ErrorScreen(driver);
+        Assert.assertTrue(errorScreen.validateTextInError("min 10, max 15!", 5),
                 "Error message for empty phone not displayed");
-        logger.warn("Validation failed for empty phone");
+        errorScreen.clickBtnErrorOk();
     }
 
     @Test(description = "Negative test: Invalid email format")
     @Step("Try to add contact with invalid email and verify error message")
     public void addContactNegative_InvalidEmailTest() {
-        Contact contact = Contact.builder()
-                .name("Ivan")
-                .lastName("Ivanov")
-                .phone("1234567890")
-                .email("ivan_at_mail.com")
-                .address("USSR")
-                .description("QA")
-                .build();
-
+        Contact contact = positiveContact();
+        contact.setEmail("invalid_email_format");
         addNewContactScreen.typeContactForm(contact);
         addNewContactScreen.clickBtnCreate();
 
-        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("must be a well-formed email address", 5),
+        ErrorScreen errorScreen = new ErrorScreen(driver);
+        Assert.assertTrue(errorScreen.validateTextInError("must be a well-formed email address", 5),
                 "Error message for invalid email not displayed");
-        logger.warn("Validation failed for invalid email format");
+        errorScreen.clickBtnErrorOk();
     }
 }

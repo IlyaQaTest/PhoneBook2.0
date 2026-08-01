@@ -27,6 +27,9 @@ public class ErrorScreen extends BaseScreen {
     @AndroidFindBy(id = "android:id/title_template")
     private WebElement appStop;
 
+    @AndroidFindBy(id = "android:id/button1")
+    private WebElement btnErrorOk;
+
     /**
      * Validates that the specified text is present in the error message.
      *
@@ -52,6 +55,16 @@ public class ErrorScreen extends BaseScreen {
     }
 
     /**
+     * Checks if the error message dialog is displayed.
+     *
+     * @return true if the error dialog is visible, false otherwise
+     */
+    public boolean isErrorDisplayed() {
+        logger.info("Checking if error dialog is displayed");
+        return isElementPresent(textError, 3);
+    }
+
+    /**
      * Checks if the "App has stopped" dialog is displayed.
      *
      * @return true if the dialog is visible, false otherwise
@@ -59,5 +72,13 @@ public class ErrorScreen extends BaseScreen {
     public boolean isAppStopDisplayed() {
         logger.info("Checking if 'App has stopped' dialog is displayed");
         return isElementPresent(appStop, 5);
+    }
+
+    /**
+     * Clicks the OK button on the error dialog.
+     */
+    public void clickBtnErrorOk() {
+        logger.info("Clicking OK button on error dialog");
+        click(btnErrorOk);
     }
 }

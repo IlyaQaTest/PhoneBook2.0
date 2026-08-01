@@ -2,6 +2,7 @@ package com.phonebook.mobile.screens;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,42 +16,91 @@ import java.time.Duration;
  * Base class for all mobile screens.
  * Provides common initialization and utility methods for element interactions.
  */
-public class BaseScreen {
+public abstract class BaseScreen {
 
-    protected static AppiumDriver driver;
+    protected AppiumDriver driver;
     private static final Logger logger = LoggerFactory.getLogger(BaseScreen.class);
 
     public BaseScreen(AppiumDriver driver) {
-        BaseScreen.driver = driver;
+        this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(15)), this);
-        logger.info("Initialized BaseScreen with Appium driver");
+        logger.info("Initialized {} with Appium driver", this.getClass().getSimpleName());
     }
 
     /**
-     * Waits until the specified text appears in the given element.
+     * Safely checks if the specified text appears in the given element within time limits.
      *
      * @param element the WebElement to check
      * @param text    the expected text
      * @param time    timeout in seconds
-     * @return true if the text is present, false otherwise
+     * @return true if the text is present, false if timeout occurs
      */
     public boolean isTextInElementPresent(WebElement element, String text, int time) {
-        logger.debug("Waiting for text '{}' to appear in element {}", text, element);
-        return new WebDriverWait(driver, Duration.ofSeconds(time))
-                .until(ExpectedConditions.textToBePresentInElement(element, text));
+        logger.debug("Waiting for text '{}' to appear in element", text);
+        try {
+            return new WebDriverWait(driver, Duration.ofSeconds(time))
+                    .until(ExpectedConditions.textToBePresentInElement(element, text));
+        } catch (TimeoutException e) {
+            logger.warn("Text '{}' was not present in element within {} seconds", text, time);
+            return false;
+        }
     }
 
     /**
-     * Waits until the element becomes visible on the screen.
+     * Safely checks if the element becomes visible on the screen within time limits.
      *
      * @param element the WebElement to check
      * @param time    timeout in seconds
-     * @return true if the element is visible, false otherwise
+     * @return true if the element is visible, false if timeout occurs
      */
     public boolean isElementPresent(WebElement element, int time) {
-        logger.debug("Waiting for element visibility: {}", element);
-        return new WebDriverWait(driver, Duration.ofSeconds(time))
-                .until(ExpectedConditions.visibilityOf(element))
-                .isDisplayed();
+        logger.debug("Waiting for element visibility within {} seconds", time);
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(time))
+                    .until(ExpectedConditions.visibilityOf(element));
+            return true;
+        } catch (TimeoutException e) {
+            logger.warn("Element was not visible within {} seconds", time);
+            return false;
+        }
+    }
+
+    /**
+     * Clicks on the specified element after waiting for it to be visible.
+     *
+     * @param element the WebElement to click
+     */
+    public void click(WebElement element) {
+        logger.debug("Clicking on element: {}", element);
+        element.click();
+    }
+
+    /**
+     * Types text into the specified input element after clearing existing text.
+     *
+     * @param element the input field
+     * @param text    text to enter
+     */
+    public void type(WebElement element, String text) {
+        if (text != null) {
+            click(element);
+            element.clear();
+            element.sendKeys(text);
+            logger.debug("Entered text: {}", text);
+        }
+    }
+
+    /**
+     * Pauses execution for the specified duration in milliseconds.
+     *
+     * @param millis time to sleep in milliseconds
+     */
+    public void pause(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            logger.warn("Pause interrupted: {}", e.getMessage());
+        }
     }
 }

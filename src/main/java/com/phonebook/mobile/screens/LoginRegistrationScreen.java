@@ -4,12 +4,8 @@ import com.phonebook.model.User;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.time.Duration;
 
 /**
  * Represents the login and registration screen in the mobile application.
@@ -36,7 +32,7 @@ public class LoginRegistrationScreen extends BaseScreen {
     private WebElement btnLogin;
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Authentication']")
-    private WebElement auth;
+    private WebElement authTitle;
 
     /**
      * Checks if the authentication title is displayed on the screen.
@@ -44,12 +40,7 @@ public class LoginRegistrationScreen extends BaseScreen {
      * @return true if the title is visible, false otherwise
      */
     public boolean isTextAuthenticationDisplayed() {
-        try {
-            return auth.isDisplayed();
-        } catch (Exception e) {
-            logger.warn("Authentication title not found: {}", e.getMessage());
-            return false;
-        }
+        return isElementPresent(authTitle, 10);
     }
 
     /**
@@ -59,24 +50,8 @@ public class LoginRegistrationScreen extends BaseScreen {
      */
     public void typeLoginRegistrationForm(User user) {
         logger.info("Entering user credentials for: {}", user.getUsername());
-
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            logger.debug("Waiting for Email field to appear...");
-            wait.until(ExpectedConditions.visibilityOf(inputEmail));
-
-            inputEmail.click();
-            inputEmail.clear();
-            inputEmail.sendKeys(user.getUsername());
-            logger.info("Email entered successfully");
-
-            inputPassword.sendKeys(user.getPassword());
-            logger.info("Password entered successfully");
-
-        } catch (Exception e) {
-            logger.error("Error while entering user data: {}", e.getMessage());
-            throw e;
-        }
+        type(inputEmail, user.getUsername());
+        type(inputPassword, user.getPassword());
     }
 
     /**
@@ -84,7 +59,7 @@ public class LoginRegistrationScreen extends BaseScreen {
      */
     public void clickBtnRegistration() {
         logger.info("Clicking 'Registration' button");
-        btnRegistration.click();
+        click(btnRegistration);
     }
 
     /**
@@ -93,12 +68,7 @@ public class LoginRegistrationScreen extends BaseScreen {
      * @return true if the form is visible, false otherwise
      */
     public boolean isLoginRegistrationFormDisplayed() {
-        try {
-            return inputEmail.isDisplayed();
-        } catch (Exception e) {
-            logger.warn("Login/Registration form not visible: {}", e.getMessage());
-            return false;
-        }
+        return isElementPresent(inputEmail, 5);
     }
 
     /**
@@ -106,6 +76,6 @@ public class LoginRegistrationScreen extends BaseScreen {
      */
     public void clickBtnLogin() {
         logger.info("Clicking 'Login' button");
-        btnLogin.click();
+        click(btnLogin);
     }
 }
