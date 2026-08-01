@@ -78,6 +78,9 @@ jobs:
             echo "Waiting for emulator to stabilize..."
             sleep 25
 
+            echo "Installing APK..."
+            adb install -r src/test/resources/phonebook.apk
+
             echo "Running mobile tests..."
             ./gradlew test --tests "com.phonebook.tests.mobile.**" -DappiumUrl="http://127.0.0.1:4723/" -DappPath="src/test/resources/phonebook.apk"
 
