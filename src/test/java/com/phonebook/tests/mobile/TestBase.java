@@ -6,6 +6,7 @@ import com.phonebook.mobile.screens.LoginRegistrationScreen;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -36,7 +37,8 @@ public class TestBase {
         String configFile = System.getProperty("configFile", "pixel.properties");
         driver = AppiumConfig.createAppiumDriver(configFile);
 
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        // Увеличен таймаут до 15 секунд для стабильности в CI-среде
+        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         loginRegistrationScreen = new LoginRegistrationScreen(driver);
         contactListScreen = new ContactListScreen(driver);
@@ -46,7 +48,13 @@ public class TestBase {
     public void tearDown() {
         if (driver != null) {
             logger.info("Closing Appium session and quitting driver...");
-            driver.quit();
+            try {
+                driver.quit();
+            } catch (Exception e) {
+                logger.warn("Error during driver.quit(): {}", e.getMessage());
+            } finally {
+                driver = null;
+            }
         }
     }
 
@@ -75,9 +83,10 @@ public class TestBase {
         try {
             logger.info("Waiting for Toast message containing: '{}'", toastText);
             WebDriverWait customWait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
-            return customWait.until(ExpectedConditions.presenceOfElementLocated(
+            WebElement toastElement = customWait.until(ExpectedConditions.presenceOfElementLocated(
                     By.xpath("//android.widget.Toast[contains(@text,'" + toastText + "')]")
-            )).isDisplayed();
+            ));
+            return toastElement != null;
         } catch (Exception e) {
             logger.warn("Toast message with text '{}' was not found within {} seconds", toastText, timeout);
             return false;

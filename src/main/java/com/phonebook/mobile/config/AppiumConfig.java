@@ -33,7 +33,10 @@ public class AppiumConfig {
 
         // Normalize URL for Appium 2.x / 3.x compatibility
         if (appiumUrl.endsWith("/wd/hub") || appiumUrl.endsWith("/wd/hub/")) {
-            appiumUrl = appiumUrl.replace("/wd/hub", "");
+            appiumUrl = appiumUrl.replaceAll("/wd/hub/?$", "");
+        }
+        if (!appiumUrl.endsWith("/")) {
+            appiumUrl = appiumUrl + "/";
         }
 
         String platformName = getValue(fileName, "os");
@@ -51,9 +54,12 @@ public class AppiumConfig {
                 .setDeviceName(deviceName)
                 .setAppPackage(appPackage)
                 .setAppActivity(appActivity)
-                .setNewCommandTimeout(Duration.ofSeconds(120))
+                .setNewCommandTimeout(Duration.ofSeconds(180))
                 .setAndroidInstallTimeout(Duration.ofSeconds(120))
                 .setAdbExecTimeout(Duration.ofSeconds(60))
+                .setAppWaitDuration(Duration.ofSeconds(30))
+                .setAutoGrantPermissions(true)
+                .setDisableWindowAnimation(true)
                 .setNoReset(false);
 
         // Resolve absolute path for APK file in CI/CD environment
