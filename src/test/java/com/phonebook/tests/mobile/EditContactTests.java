@@ -41,6 +41,9 @@ public class EditContactTests extends TestBase {
         loginRegistrationScreen.clickBtnLogin();
 
         contactListScreen = new ContactListScreen(driver);
+
+        // CI emulator needs time to load contact list
+        contactListScreen.waitForContactListNotEmpty();
     }
 
     @Test(description = "Positive test: Edit first contact and verify update message")
@@ -49,12 +52,14 @@ public class EditContactTests extends TestBase {
         Contact contact = positiveContact();
         logger.info("Editing first contact with new data: {}", contact);
 
+        contactListScreen.waitForContactListNotEmpty();
         contactListScreen.editFirstContact();
+
         editContactScreen = new EditContactScreen(driver);
         editContactScreen.typeEditContactForm(contact);
         editContactScreen.clickBtnUpdate();
 
-        boolean isUpdated = contactListScreen.isTextInMessageContactWasUpdatedPresent("Contact was updated!", 5);
+        boolean isUpdated = contactListScreen.isTextInMessageContactWasUpdatedPresent("Contact was updated!", 10);
         logger.info("Contact update message displayed: {}", isUpdated);
 
         Assert.assertTrue(isUpdated, "Contact update confirmation message not displayed");
@@ -66,12 +71,14 @@ public class EditContactTests extends TestBase {
     public void editContactNegativeEmptyNameTest() {
         logger.info("Starting negative test: edit contact with empty name");
 
+        contactListScreen.waitForContactListNotEmpty();
         contactListScreen.editFirstContact();
+
         editContactScreen = new EditContactScreen(driver);
         editContactScreen.clearName();
         editContactScreen.clickBtnUpdate();
 
-        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("not be blank", 5),
+        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("not be blank", 10),
                 "Error message for empty name not displayed");
 
         Assert.assertFalse(editContactScreen.isEditScreenDisplayed(),

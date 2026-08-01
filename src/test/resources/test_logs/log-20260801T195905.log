@@ -1,0 +1,39 @@
+19:59:07.050 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+19:59:07.060 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+19:59:07.239 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+19:59:15.179 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:59:15.351 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:59:15.567 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:59:15.574 [Test worker] INFO  c.p.tests.mobile.EditContactTests - Logging in with user: fuf@fuf.fuf
+19:59:15.574 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: fuf@fuf.fuf
+19:59:25.227 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+19:59:25.977 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:59:26.099 [Test worker] INFO  c.p.tests.mobile.EditContactTests - Starting negative test: edit contact with empty name
+19:59:26.099 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Editing first contact (swiping RIGHT to LEFT)
+19:59:28.395 [Test worker] INFO  c.p.mobile.helpers.SwipeUtils - Performing swipe LEFT inside element
+19:59:28.975 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized EditContactScreen with Appium driver
+19:59:28.975 [Test worker] INFO  c.p.mobile.screens.EditContactScreen - Clearing Name field
+19:59:30.265 [Test worker] INFO  c.p.mobile.screens.EditContactScreen - Clicking 'Update' button to save contact changes
+19:59:30.959 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ErrorScreen with Appium driver
+19:59:30.961 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Validating error message text: 'not be blank'
+19:59:47.445 [Test worker] WARN  c.p.mobile.screens.BaseScreen - Element was not visible within 10 seconds
+19:59:47.471 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...
+19:59:48.648 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+19:59:48.653 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+19:59:48.654 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+19:59:54.136 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:59:54.138 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:59:54.148 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:59:54.149 [Test worker] INFO  c.p.tests.mobile.EditContactTests - Logging in with user: fuf@fuf.fuf
+19:59:54.149 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: fuf@fuf.fuf
+20:00:05.788 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+20:00:06.582 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+20:00:07.345 [Test worker] INFO  c.p.tests.mobile.EditContactTests - Editing first contact with new data: Contact(id=null, name=Florencio, lastName=Gerhold, phone=9339928313844, email=cory.kirlin@yahoo.com, address=Apt. 666 930 Hoeger Ridge, Shieldston, ND 46932, description=My work)
+20:00:07.363 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Editing first contact (swiping RIGHT to LEFT)
+20:00:08.981 [Test worker] INFO  c.p.mobile.helpers.SwipeUtils - Performing swipe LEFT inside element
+20:00:09.540 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized EditContactScreen with Appium driver
+20:00:09.545 [Test worker] INFO  c.p.mobile.screens.EditContactScreen - Editing contact form for: Florencio
+20:00:31.833 [Test worker] INFO  c.p.mobile.screens.EditContactScreen - Clicking 'Update' button to save contact changes
+20:00:36.780 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Toast message containing 'Contact was updated!' was successfully found
+20:00:36.781 [Test worker] INFO  c.p.tests.mobile.EditContactTests - Contact update message displayed: true
+20:00:36.788 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...

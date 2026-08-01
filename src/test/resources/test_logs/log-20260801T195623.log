@@ -1,0 +1,16 @@
+19:56:26.426 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+19:56:26.440 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+19:56:26.682 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+19:56:34.326 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:56:34.546 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:56:34.786 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:56:34.794 [Test worker] INFO  c.p.tests.mobile.EditContactTests - Logging in with user: fuf@fuf.fuf
+19:56:34.795 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: fuf@fuf.fuf
+19:56:44.535 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+19:56:45.241 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:56:46.740 [Test worker] INFO  c.p.tests.mobile.EditContactTests - Editing first contact with new data: Contact(id=null, name=Patrice, lastName=Feil, phone=1402553269572, email=bobbie.hessel@yahoo.com, address=Apt. 419 69768 Chase Parks, Alexashire, PA 18909, description=My work)
+19:56:46.803 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Editing first contact (swiping RIGHT to LEFT)
+19:56:48.010 [Test worker] INFO  c.p.mobile.helpers.SwipeUtils - Performing swipe LEFT inside element
+19:56:48.607 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized EditContactScreen with Appium driver
+19:56:48.614 [Test worker] INFO  c.p.mobile.screens.EditContactScreen - Editing contact form for: Patrice
+19:57:20.088 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...

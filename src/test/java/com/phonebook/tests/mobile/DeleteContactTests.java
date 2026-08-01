@@ -64,7 +64,11 @@ public class DeleteContactTests extends TestBase {
 
         contactListScreen = new ContactListScreen(driver);
         addNewContactScreen = new AddNewContactScreen(driver);
+
+        // CI emulator needs time to load contact list
+        contactListScreen.waitForContactListNotEmpty();
     }
+
 
     @Test(description = "Delete middle contact and verify via API")
     @Step("Delete middle contact from list via UI and verify count decrease via API")
@@ -72,7 +76,14 @@ public class DeleteContactTests extends TestBase {
         int sizeBeforeDelete = contactsListBeforeDelete.getContacts().size();
         logger.info("Initial contact count: {}", sizeBeforeDelete);
 
+        contactListScreen.waitForContactListNotEmpty();
         contactListScreen.deleteContactMiddle();
+
+        try {
+            Thread.sleep(1000); // CI needs time to update UI
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
 
         int sizeAfterDelete = ContactController
                 .requestGetAllUserContacts(tokenDto.getToken())
@@ -85,13 +96,21 @@ public class DeleteContactTests extends TestBase {
                 "Contact count in API should decrease by 1 after middle contact deletion");
     }
 
+
     @Test(description = "Delete first contact and verify via API")
     @Step("Delete first contact from list via UI and verify count decrease via API")
     public void deleteFirstContactTest() {
         int sizeBeforeDelete = contactsListBeforeDelete.getContacts().size();
         logger.info("Initial contact count: {}", sizeBeforeDelete);
 
+        contactListScreen.waitForContactListNotEmpty();
         contactListScreen.deleteFirstContact();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
 
         int sizeAfterDelete = ContactController
                 .requestGetAllUserContacts(tokenDto.getToken())
@@ -103,6 +122,7 @@ public class DeleteContactTests extends TestBase {
         Assert.assertEquals(sizeAfterDelete, sizeBeforeDelete - 1,
                 "Contact count in API should decrease by 1 after first contact deletion");
     }
+
 
     @Test(description = "Delete last contact and verify via API")
     @Step("Add contact via UI, delete last contact, and verify count decrease via API")
@@ -123,6 +143,12 @@ public class DeleteContactTests extends TestBase {
                 .size();
 
         contactListScreen.deleteLastContact();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
 
         int sizeAfterDelete = ContactController
                 .requestGetAllUserContacts(tokenDto.getToken())

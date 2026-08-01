@@ -1,0 +1,15 @@
+19:04:23.267 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+19:04:23.278 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+19:04:23.450 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+19:04:44.234 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:04:44.544 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:04:44.872 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:04:44.877 [Test worker] INFO  c.p.tests.mobile.AddNewContactTests - Logging in with user: abcd@gmail.com
+19:04:44.877 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: abcd@gmail.com
+19:04:55.448 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+19:04:56.283 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:04:56.284 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Clicking 'Add Contact' button
+19:04:59.592 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized AddNewContactScreen with Appium driver
+19:05:01.006 [Test worker] INFO  c.p.m.screens.AddNewContactScreen - Typing contact form for: Warner
+19:05:32.956 [Test worker] INFO  c.p.tests.mobile.AddNewContactTests - Application successfully restarted in postCondition
+19:05:32.961 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...

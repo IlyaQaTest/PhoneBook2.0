@@ -1,0 +1,22 @@
+19:32:50.821 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+19:32:50.829 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+19:32:50.996 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+19:32:58.211 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:32:58.385 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:32:58.544 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ErrorScreen with Appium driver
+19:32:58.550 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Checking if error dialog is displayed
+19:33:14.463 [Test worker] WARN  c.p.mobile.screens.BaseScreen - Element was not visible within 3 seconds
+19:33:14.465 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:33:14.467 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:33:14.536 [Test worker] INFO  c.p.tests.mobile.AddNewContactTests - Logging in with user: abcd@gmail.com
+19:33:14.536 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: abcd@gmail.com
+19:33:23.164 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+19:33:24.405 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Clicking 'Add Contact' button
+19:33:26.585 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized AddNewContactScreen with Appium driver
+19:33:27.331 [Test worker] INFO  c.p.m.screens.AddNewContactScreen - Typing contact form for: Cleotilde
+19:33:55.740 [Test worker] INFO  c.p.m.screens.AddNewContactScreen - Clicking 'Create' button to add new contact
+19:33:57.016 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ErrorScreen with Appium driver
+19:33:57.017 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Validating error message text: 'min 10, max 15!'
+19:33:58.006 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Clicking OK button on error dialog
+19:33:58.891 [Test worker] INFO  c.p.tests.mobile.AddNewContactTests - Application successfully restarted in postCondition
+19:33:58.894 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...

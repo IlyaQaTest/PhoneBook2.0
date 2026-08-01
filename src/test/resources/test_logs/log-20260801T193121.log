@@ -1,0 +1,20 @@
+19:31:23.696 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+19:31:23.705 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+19:31:23.872 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+19:31:31.388 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:31:31.561 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:31:31.750 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ErrorScreen with Appium driver
+19:31:31.751 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Checking if error dialog is displayed
+19:31:46.976 [Test worker] WARN  c.p.mobile.screens.BaseScreen - Element was not visible within 3 seconds
+19:31:46.978 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:31:46.981 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:31:47.062 [Test worker] INFO  c.p.tests.mobile.AddNewContactTests - Logging in with user: abcd@gmail.com
+19:31:47.062 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: abcd@gmail.com
+19:31:55.652 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+19:31:56.891 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Clicking 'Add Contact' button
+19:31:59.126 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized AddNewContactScreen with Appium driver
+19:31:59.994 [Test worker] INFO  c.p.m.screens.AddNewContactScreen - Typing contact form for: Reginald
+19:32:28.791 [Test worker] INFO  c.p.m.screens.AddNewContactScreen - Clicking 'Create' button to add new contact
+19:32:30.880 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Toast message containing 'Contact was added' was successfully found
+19:32:31.569 [Test worker] INFO  c.p.tests.mobile.AddNewContactTests - Application successfully restarted in postCondition
+19:32:31.574 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...

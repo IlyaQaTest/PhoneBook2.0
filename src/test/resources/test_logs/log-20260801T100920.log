@@ -1,0 +1,13 @@
+10:09:21.828 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+10:09:21.836 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+10:09:21.992 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+10:09:31.078 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+10:09:31.236 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+10:09:31.425 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+10:09:31.508 [Test worker] INFO  c.phonebook.tests.mobile.LoginTests - Starting test: loginPositiveTest
+10:09:31.510 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: fuf@fuf.fuf
+10:09:44.059 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+10:09:45.791 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+10:09:55.364 [Test worker] INFO  c.phonebook.tests.mobile.LoginTests - Contact list screen displayed: true
+10:09:57.127 [Test worker] INFO  c.phonebook.tests.mobile.LoginTests - Application restarted successfully in postCondition
+10:09:57.131 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...

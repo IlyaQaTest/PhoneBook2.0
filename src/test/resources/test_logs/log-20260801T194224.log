@@ -1,0 +1,22 @@
+19:42:26.369 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+19:42:26.376 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+19:42:26.540 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+19:42:33.406 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:42:33.563 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:42:33.726 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ErrorScreen with Appium driver
+19:42:33.728 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Checking if error dialog is displayed
+19:42:49.456 [Test worker] WARN  c.p.mobile.screens.BaseScreen - Element was not visible within 3 seconds
+19:42:49.458 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:42:49.460 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:42:49.536 [Test worker] INFO  c.p.tests.mobile.AddNewContactTests - Logging in with user: abcd@gmail.com
+19:42:49.536 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: abcd@gmail.com
+19:42:54.921 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+19:42:55.649 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Clicking 'Add Contact' button
+19:42:57.812 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized AddNewContactScreen with Appium driver
+19:42:58.582 [Test worker] INFO  c.p.m.screens.AddNewContactScreen - Typing contact form for: Francis
+19:43:18.129 [Test worker] INFO  c.p.m.screens.AddNewContactScreen - Clicking 'Create' button to add new contact
+19:43:20.933 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ErrorScreen with Appium driver
+19:43:20.934 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Validating error message text: 'must be a well-formed email address'
+19:43:21.912 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Clicking OK button on error dialog
+19:43:22.776 [Test worker] INFO  c.p.tests.mobile.AddNewContactTests - Application successfully restarted in postCondition
+19:43:22.780 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...

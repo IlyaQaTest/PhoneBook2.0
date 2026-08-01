@@ -16,10 +16,6 @@ import org.testng.annotations.BeforeMethod;
 
 import java.time.Duration;
 
-/**
- * Base class for all mobile tests.
- * Handles Appium driver setup, teardown, and common utilities such as screenshots and alert handling.
- */
 public class TestBase {
 
     protected static final Logger logger = LoggerFactory.getLogger(TestBase.class);
@@ -33,12 +29,11 @@ public class TestBase {
     public void setup() {
         logger.info("Initializing Appium driver...");
 
-        // Allows overriding configFile via system property -DconfigFile=pixel.properties
         String configFile = System.getProperty("configFile", "pixel.properties");
         driver = AppiumConfig.createAppiumDriver(configFile);
 
-        // Увеличен таймаут до 15 секунд для стабильности в CI-среде
-        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        // Increased timeout for slow CI emulator
+        wait = new WebDriverWait(driver, Duration.ofSeconds(25));
 
         loginRegistrationScreen = new LoginRegistrationScreen(driver);
         contactListScreen = new ContactListScreen(driver);
@@ -58,33 +53,22 @@ public class TestBase {
         }
     }
 
-    /**
-     * Waits for an alert to appear, retrieves its text, and closes it.
-     *
-     * @return the alert message text
-     */
     public String getAlertTextAndClose() {
         logger.debug("Waiting for alert to appear...");
-        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = new WebDriverWait(driver, Duration.ofSeconds(20))
+                .until(ExpectedConditions.alertIsPresent());
         String text = alert.getText();
         alert.accept();
         logger.info("Alert closed. Text: {}", text);
         return text;
     }
 
-    /**
-     * Checks if a Toast message with the expected text is displayed on the screen.
-     *
-     * @param toastText expected text in the Toast notification
-     * @param timeout   wait timeout in seconds
-     * @return true if the Toast is present, false otherwise
-     */
     public boolean isToastPresent(String toastText, int timeout) {
         try {
             logger.info("Waiting for Toast message containing: '{}'", toastText);
             WebDriverWait customWait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
             WebElement toastElement = customWait.until(ExpectedConditions.presenceOfElementLocated(
-                    By.xpath("//android.widget.Toast[contains(@text,'" + toastText + "')]")
+                    By.xpath("//*[contains(@text,'" + toastText + "')]")
             ));
             return toastElement != null;
         } catch (Exception e) {

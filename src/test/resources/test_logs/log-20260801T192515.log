@@ -1,0 +1,20 @@
+19:25:17.150 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+19:25:17.159 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+19:25:17.324 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+19:25:25.121 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:25:25.294 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:25:25.474 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ErrorScreen with Appium driver
+19:25:25.476 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Checking if error dialog is displayed
+19:25:40.957 [Test worker] WARN  c.p.mobile.screens.BaseScreen - Element was not visible within 3 seconds
+19:25:40.959 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:25:40.965 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:25:41.041 [Test worker] INFO  c.p.tests.mobile.AddNewContactTests - Logging in with user: abcd@gmail.com
+19:25:41.041 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: abcd@gmail.com
+19:25:49.888 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+19:25:51.116 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Clicking 'Add Contact' button
+19:25:53.371 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized AddNewContactScreen with Appium driver
+19:25:54.276 [Test worker] INFO  c.p.m.screens.AddNewContactScreen - Typing contact form for: Eliza
+19:26:23.260 [Test worker] INFO  c.p.m.screens.AddNewContactScreen - Clicking 'Create' button to add new contact
+19:26:30.054 [Test worker] WARN  c.p.mobile.screens.ContactListScreen - Toast message 'Contact was added' was not displayed within 5 seconds
+19:26:30.606 [Test worker] INFO  c.p.tests.mobile.AddNewContactTests - Application successfully restarted in postCondition
+19:26:30.609 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...

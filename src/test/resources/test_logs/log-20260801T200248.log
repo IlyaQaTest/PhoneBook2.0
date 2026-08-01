@@ -1,0 +1,21 @@
+20:02:50.791 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+20:02:50.800 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+20:02:50.990 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+20:02:57.922 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+20:02:58.111 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+20:02:58.323 [Test worker] INFO  c.p.tests.mobile.UpdateContactTests - Logging in via mobile UI...
+20:02:58.331 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+20:02:58.331 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: fuf@fuf.fuf
+20:03:07.953 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+20:03:09.534 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+20:03:09.542 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized AddNewContactScreen with Appium driver
+20:03:09.613 [Test worker] INFO  c.p.tests.mobile.UpdateContactTests - Starting test: updateContactPositiveTest
+20:03:11.145 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Getting contact name at index 0
+20:03:11.279 [Test worker] INFO  c.p.tests.mobile.UpdateContactTests - Old contact name: Florencio Gerhold
+20:03:11.279 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Getting contact WebElement at index 0
+20:03:11.428 [Test worker] INFO  c.p.mobile.helpers.SwipeUtils - Performing update swipe inside element
+20:03:12.058 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized UpdateContactScreen with Appium driver
+20:03:12.058 [Test worker] INFO  c.p.m.screens.UpdateContactScreen - Clearing contact name field
+20:03:13.352 [Test worker] INFO  c.p.m.screens.UpdateContactScreen - Typing new contact name: UpdatedName_1785603792058
+20:03:16.440 [Test worker] INFO  c.p.m.screens.UpdateContactScreen - Clicking 'Update' button to save contact changes
+20:03:31.647 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...

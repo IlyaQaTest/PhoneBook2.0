@@ -31,6 +31,12 @@ public class AddNewContactTests extends TestBase {
     @BeforeMethod
     @Step("Ensure user is logged in and navigate to Add New Contact screen")
     public void setUp() {
+        try {
+            Thread.sleep(500); // CI emulator needs time to render dialog
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         ErrorScreen errorScreen = new ErrorScreen(driver);
         if (errorScreen.isErrorDisplayed()) {
             logger.info("Dismissing leftover error dialog before starting test");
@@ -62,12 +68,21 @@ public class AddNewContactTests extends TestBase {
             try {
                 driver.terminateApp(APP_PACKAGE);
                 driver.activateApp(APP_PACKAGE);
+
+                try {
+                    Thread.sleep(1500); // CI emulator needs time to stabilize
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+
                 logger.info("Application successfully restarted in postCondition");
             } catch (Exception e) {
                 logger.warn("Failed to restart application in postCondition: {}", e.getMessage());
             }
         }
     }
+
+
 
     @Test(description = "Positive test: Add a new contact successfully")
     @Step("Add a new contact and verify success message")

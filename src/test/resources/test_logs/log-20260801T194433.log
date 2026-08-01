@@ -1,0 +1,54 @@
+19:44:35.767 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+19:44:35.777 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+19:44:35.981 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+19:44:43.428 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:44:43.593 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:44:44.350 [Test worker] INFO  c.p.tests.mobile.DeleteContactTests - Authenticating user via API...
+19:44:49.611 [Test worker] INFO  c.p.tests.mobile.DeleteContactTests - API response status: HTTP/1.1 200 OK
+19:44:49.635 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:44:49.636 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: fuf@fuf.fuf
+19:44:54.999 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+19:44:56.361 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:44:56.367 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized AddNewContactScreen with Appium driver
+19:44:56.441 [Test worker] INFO  c.p.tests.mobile.DeleteContactTests - Initial contact count: 116
+19:44:56.442 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Deleting first contact
+19:44:58.015 [Test worker] INFO  c.p.mobile.helpers.SwipeUtils - Performing delete swipe inside element
+19:45:15.167 [Test worker] INFO  c.p.tests.mobile.DeleteContactTests - Application restarted successfully in postCondition
+19:45:15.171 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...
+19:45:15.835 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+19:45:15.838 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+19:45:15.839 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+19:45:21.071 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:45:21.075 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:45:21.081 [Test worker] INFO  c.p.tests.mobile.DeleteContactTests - Authenticating user via API...
+19:45:22.944 [Test worker] INFO  c.p.tests.mobile.DeleteContactTests - API response status: HTTP/1.1 200 OK
+19:45:23.103 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:45:23.104 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: fuf@fuf.fuf
+19:45:32.184 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+19:45:32.928 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:45:32.929 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized AddNewContactScreen with Appium driver
+19:45:32.937 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Clicking 'Add Contact' button
+19:45:35.164 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized AddNewContactScreen with Appium driver
+19:45:35.166 [Test worker] INFO  c.p.m.screens.AddNewContactScreen - Typing contact form for: Dee
+19:45:54.965 [Test worker] INFO  c.p.m.screens.AddNewContactScreen - Clicking 'Create' button to add new contact
+19:46:00.368 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Deleting last contact
+19:46:00.488 [Test worker] INFO  c.p.mobile.helpers.SwipeUtils - Performing delete swipe inside element
+19:46:17.266 [Test worker] INFO  c.p.tests.mobile.DeleteContactTests - Application restarted successfully in postCondition
+19:46:17.270 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...
+19:46:17.919 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+19:46:17.923 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+19:46:17.923 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+19:46:22.951 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:46:22.953 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:46:22.961 [Test worker] INFO  c.p.tests.mobile.DeleteContactTests - Authenticating user via API...
+19:46:24.731 [Test worker] INFO  c.p.tests.mobile.DeleteContactTests - API response status: HTTP/1.1 200 OK
+19:46:24.884 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+19:46:24.884 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: fuf@fuf.fuf
+19:46:34.181 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+19:46:34.913 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+19:46:34.914 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized AddNewContactScreen with Appium driver
+19:46:34.922 [Test worker] INFO  c.p.tests.mobile.DeleteContactTests - Initial contact count: 117
+19:46:37.214 [Test worker] INFO  c.p.mobile.screens.ContactListScreen - Deleting middle contact at index 4
+19:46:37.297 [Test worker] INFO  c.p.mobile.helpers.SwipeUtils - Performing delete swipe inside element
+19:46:54.438 [Test worker] INFO  c.p.tests.mobile.DeleteContactTests - Application restarted successfully in postCondition
+19:46:54.441 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...

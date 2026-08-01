@@ -1,0 +1,3 @@
+09:18:54.141 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+09:18:54.161 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/wd/hub
+09:18:54.506 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk

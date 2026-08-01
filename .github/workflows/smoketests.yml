@@ -11,7 +11,6 @@ jobs:
   automation-tests:
     runs-on: ubuntu-latest
 
-    # Service container for MySQL Database
     services:
       mysql:
         image: mysql:8.0
@@ -27,11 +26,9 @@ jobs:
           --health-retries=3
 
     steps:
-      # Step 1: Check out repository code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Java JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -39,62 +36,57 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      # Step 3: Grant execution rights for Gradle wrapper
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # Step 4: Install MySQL Client & Initialize Database Schema
       - name: Initialize Database Schema
         run: |
           sudo apt-get update
           sudo apt-get install -y mysql-client
           mysql -h 127.0.0.1 -P 3306 -u root -pRoot1234 phonebook < src/main/java/com/phonebook/docker/init.sql
 
-      # Step 5: Execute API Tests
       - name: Run API Tests
         run: ./gradlew test --tests "com.phonebook.tests.api.**"
 
-      # Step 6: Execute Web UI Tests (Headless Chrome)
       - name: Run Web UI Tests
         run: ./gradlew test --tests "com.phonebook.tests.ui.**"
         env:
           HEADLESS: true
 
-      # Step 7: Install Appium Server & UiAutomator2 Driver
       - name: Install Appium Server & Driver
         run: |
           npm install -g appium
           appium driver install uiautomator2
 
-      # Step 8: Start Emulator with KVM Acceleration, Launch Appium, and Run Mobile Tests
-      - name: Enable KVM
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm-rules.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-
       - name: Run Mobile Tests on Android Emulator
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
           api-level: 29
+          system-image-api-level: 29
           target: default
           arch: x86_64
           profile: pixel
-          enable-kvm: true
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
+            echo "Starting Appium..."
             nohup appium --log-timestamp --log-no-colors > appium.log 2>&1 &
-            echo "Waiting for Appium server to start..."
-            timeout 30 sh -c 'until curl -s http://127.0.0.1:4723/status; do sleep 2; done'
-            ./gradlew test --tests "com.phonebook.tests.mobile.**" -DappiumUrl="http://127.0.0.1:4723/" -DappPath="src/test/resources/phonebook.apk"
 
-      # Step 9: Generate Allure Report
+            echo "Waiting for Appium server..."
+            timeout 60 sh -c 'until curl -s http://127.0.0.1:4723/status; do sleep 3; done'
+
+            echo "Waiting for emulator to stabilize..."
+            sleep 25
+
+            echo "Running mobile tests..."
+            ./gradlew test --tests "com.phonebook.tests.mobile.**" \
+              -DappiumUrl="http://127.0.0.1:4723/" \
+              -DappPath="src/test/resources/phonebook.apk"
+
       - name: Generate Allure Report
         if: always()
         run: ./gradlew allureReport --continue
 
-      # Step 10: Upload Test Reports, Allure & Appium Logs
       - name: Upload Test Artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -104,3 +96,4 @@ jobs:
             build/reports/tests/test/
             build/reports/allure-report/
             appium.log
+            emulator.log

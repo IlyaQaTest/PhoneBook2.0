@@ -41,6 +41,9 @@ public class UpdateContactTests extends TestBase {
 
         contactListScreen = new ContactListScreen(driver);
         addNewContactScreen = new AddNewContactScreen(driver);
+
+        // CI emulator needs time to load contact list
+        contactListScreen.waitForContactListNotEmpty();
     }
 
     @Test(description = "Positive test: Update contact name via mobile UI")
@@ -48,17 +51,30 @@ public class UpdateContactTests extends TestBase {
     public void updateContactPositiveTest() {
         logger.info("Starting test: updateContactPositiveTest");
 
+        // Create contact if list is empty
         if (contactListScreen.isContactListEmpty()) {
             logger.info("No contacts found — creating one for test setup");
             contactListScreen.clickBtnPlus();
+
             Contact contact = positiveContact();
             addNewContactScreen.typeContactForm(contact);
             addNewContactScreen.clickBtnCreate();
+
             contactListScreen.waitForContactListNotEmpty();
         }
 
+        // Ensure list is fully loaded before interacting
+        contactListScreen.waitForContactListNotEmpty();
+
         String oldName = contactListScreen.getContactName(0);
         logger.info("Old contact name: {}", oldName);
+
+        // CI emulator needs time before swipe
+        try {
+            Thread.sleep(800);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
 
         contactListScreen.swipeInsideElementUpdate(driver, contactListScreen.getContact(0));
         updateContactScreen = new UpdateContactScreen(driver);
@@ -68,8 +84,16 @@ public class UpdateContactTests extends TestBase {
         updateContactScreen.typeName(newName);
         updateContactScreen.clickUpdateBtn();
 
+        // CI emulator needs time to refresh list
+        try {
+            Thread.sleep(800);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         String updatedName = contactListScreen.getContactName(0);
         logger.info("Updated contact name: {}", updatedName);
+
         Assert.assertTrue(updatedName.startsWith(newName),
                 "Contact name was not updated correctly!");
     }

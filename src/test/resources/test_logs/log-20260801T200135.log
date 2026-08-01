@@ -1,0 +1,15 @@
+20:01:37.059 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+20:01:37.070 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+20:01:37.285 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+20:01:44.283 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+20:01:44.481 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+20:01:44.694 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized SplashScreen with Appium driver
+20:01:44.698 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+20:01:45.410 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for:  
+20:01:54.360 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Registration' button
+20:01:55.722 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ErrorScreen with Appium driver
+20:01:55.722 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Validating crash screen text: 'Open app again'
+20:01:57.280 [Test worker] ERROR c.p.core.helpers.CrashHandlerPrtSC - App crash detected! Capturing full desktop screenshot...
+20:01:59.288 [Test worker] INFO  c.p.core.helpers.CrashHandlerPrtSC - Desktop screenshot saved: C:\Users\lapid\IdeaProjects\PhoneBook2.0\screenshots\bug_invalid_email_space_desktop.png
+20:01:59.914 [Test worker] INFO  c.p.tests.mobile.RegistrationTests - Application restarted successfully in postCondition
+20:01:59.919 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...

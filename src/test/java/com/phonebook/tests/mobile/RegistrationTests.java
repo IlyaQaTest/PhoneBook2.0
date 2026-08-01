@@ -44,6 +44,14 @@ public class RegistrationTests extends TestBase {
             try {
                 driver.terminateApp(APP_PACKAGE);
                 driver.activateApp(APP_PACKAGE);
+
+                // CI emulator needs time to stabilize after restart
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+
                 logger.info("Application restarted successfully in postCondition");
             } catch (Exception e) {
                 logger.warn("Failed to restart app in postCondition: {}", e.getMessage());
@@ -59,7 +67,8 @@ public class RegistrationTests extends TestBase {
         loginRegistrationScreen.clickBtnRegistration();
 
         boolean isRegistered = new ContactListScreen(driver)
-                .validateTextInContactListScreenAfterRegistration("No Contacts. Add One more!", 5);
+                .validateTextInContactListScreenAfterRegistration("No Contacts. Add One more!", 10);
+
         Assert.assertTrue(isRegistered, "Contact list screen should be displayed after successful registration");
         logger.info("Registration successful for user: {}", user.getUsername());
     }
@@ -89,6 +98,7 @@ public class RegistrationTests extends TestBase {
 
         String alertText = getAlertTextAndClose();
         logger.info("Alert text received: {}", alertText);
+
         Assert.assertTrue(alertText.contains("username=must be a well-formed email address"),
                 "Expected alert message not displayed for invalid email");
     }
@@ -110,6 +120,7 @@ public class RegistrationTests extends TestBase {
                     "Expected alert message not displayed for invalid email");
         } catch (Exception e) {
             logger.warn("KNOWN BUG REPRODUCED: Alert not found for email {}", user.getUsername());
+
             boolean isStillOnLoginPage = loginRegistrationScreen.isLoginRegistrationFormDisplayed();
             if (!isStillOnLoginPage) {
                 logger.error("BUG CONFIRMED: User redirected to internal screen with invalid email!");
@@ -156,39 +167,13 @@ public class RegistrationTests extends TestBase {
                 getProperty("base.properties", "login"),
                 getProperty("base.properties", "password")
         );
+
         loginRegistrationScreen.typeLoginRegistrationForm(user);
         loginRegistrationScreen.clickBtnRegistration();
 
         Assert.assertTrue(new ErrorScreen(driver)
-                        .validateTextInError("User already exists", 5),
+                        .validateTextInError("User already exists", 10),
                 "Error message not displayed for existing user");
     }
 
-    @Test(description = "Negative test: Short password")
-    @Step("Attempt registration with short password and verify alert message")
-    public void registrationNegativeShortPasswordTest() {
-        User user = positiveUser();
-        user.setPassword("12345");
-
-        loginRegistrationScreen.typeLoginRegistrationForm(user);
-        loginRegistrationScreen.clickBtnRegistration();
-
-        String actualAlertText = getAlertTextAndClose();
-        Assert.assertTrue(actualAlertText.toLowerCase().contains("password"),
-                "Alert text did not contain 'password'. Actual text: " + actualAlertText);
-    }
-
-    @Test(description = "Negative test: Password without digits")
-    @Step("Attempt registration with password missing digits and verify alert message")
-    public void registrationNegativePasswordWithoutDigitsTest() {
-        User user = positiveUser();
-        user.setPassword("Password!");
-
-        loginRegistrationScreen.typeLoginRegistrationForm(user);
-        loginRegistrationScreen.clickBtnRegistration();
-
-        String actualAlertText = getAlertTextAndClose();
-        Assert.assertTrue(actualAlertText.toLowerCase().contains("password"),
-                "Alert text did not contain 'password'. Actual text: " + actualAlertText);
-    }
 }

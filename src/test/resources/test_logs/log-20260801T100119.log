@@ -1,0 +1,63 @@
+10:01:21.131 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+10:01:21.138 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+10:01:21.254 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+10:01:31.364 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+10:01:31.485 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+10:01:31.635 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+10:01:31.694 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+10:01:36.290 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ErrorScreen with Appium driver
+10:01:36.290 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Validating error message text: 'Login or Password incorrect'
+10:01:39.569 [Test worker] INFO  c.phonebook.tests.mobile.LoginTests - Application restarted successfully in postCondition
+10:01:39.573 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...
+10:01:40.233 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+10:01:40.235 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+10:01:40.236 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+10:01:45.165 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+10:01:45.170 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+10:01:45.176 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+10:01:45.186 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: 
+10:01:56.895 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+10:01:58.338 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ErrorScreen with Appium driver
+10:01:58.338 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Validating error message text: 'Login or Password incorrect'
+10:02:00.384 [Test worker] INFO  c.phonebook.tests.mobile.LoginTests - Application restarted successfully in postCondition
+10:02:00.388 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...
+10:02:00.882 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+10:02:00.886 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+10:02:00.886 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+10:02:06.187 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+10:02:06.196 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+10:02:06.203 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+10:02:06.215 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: fuf@fuf.fuf
+10:02:17.900 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+10:02:18.632 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ErrorScreen with Appium driver
+10:02:18.633 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Validating error message text: 'Login or Password incorrect'
+10:02:21.821 [Test worker] INFO  c.phonebook.tests.mobile.LoginTests - Application restarted successfully in postCondition
+10:02:21.823 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...
+10:02:22.394 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+10:02:22.397 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+10:02:22.397 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+10:02:27.686 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+10:02:27.689 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+10:02:27.693 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+10:02:27.701 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for:  
+10:02:39.568 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+10:02:40.953 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ErrorScreen with Appium driver
+10:02:40.953 [Test worker] INFO  c.p.mobile.screens.ErrorScreen - Validating error message text: 'Login or Password incorrect'
+10:02:48.121 [Test worker] INFO  c.phonebook.tests.mobile.LoginTests - Application restarted successfully in postCondition
+10:02:48.124 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...
+10:02:48.761 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+10:02:48.765 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+10:02:48.765 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+10:02:53.342 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+10:02:53.345 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+10:02:53.349 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized LoginRegistrationScreen with Appium driver
+10:02:53.354 [Test worker] INFO  c.phonebook.tests.mobile.LoginTests - Starting test: loginPositiveBtnPlusTest
+10:02:53.355 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Entering user credentials for: fuf@fuf.fuf
+10:03:05.316 [Test worker] INFO  c.p.m.s.LoginRegistrationScreen - Clicking 'Login' button
+10:03:06.068 [Test worker] INFO  c.p.mobile.screens.BaseScreen - Initialized ContactListScreen with Appium driver
+10:03:10.075 [Test worker] INFO  c.phonebook.tests.mobile.LoginTests - Application restarted successfully in postCondition
+10:03:10.079 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...
+10:03:18.782 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Initializing Appium driver...
+10:03:18.784 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Connecting to Appium server at: http://127.0.0.1:4723/
+10:03:18.784 [Test worker] INFO  c.p.mobile.config.AppiumConfig - Setting APK path: C:\Users\lapid\IdeaProjects\PhoneBook2.0\src\test\resources\phonebook.apk
+10:03:58.458 [Test worker] INFO  com.phonebook.tests.mobile.TestBase - Closing Appium session and quitting driver...
