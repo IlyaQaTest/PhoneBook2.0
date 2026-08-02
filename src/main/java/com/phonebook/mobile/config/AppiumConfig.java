@@ -46,11 +46,22 @@ public class AppiumConfig {
         logger.info("Connecting to Appium server at: {}", appiumUrl);
 
         // Core capabilities
-        String platformName = System.getProperty("platformName", getValue(fileName, "os"));
-        String automationName = System.getProperty("automationName", getValue(fileName, "automationName"));
-        String deviceName = System.getProperty("deviceName", getValue(fileName, "deviceName"));
+        String platformName = System.getProperty("platformName", getValueOptional(fileName, "os"));
+        if (platformName == null || platformName.isEmpty()) {
+            platformName = "Android";
+        }
 
-        // FIXED: Correct package & activity for Contact App
+        String automationName = System.getProperty("automationName", getValueOptional(fileName, "automationName"));
+        if (automationName == null || automationName.isEmpty()) {
+            automationName = "UiAutomator2";
+        }
+
+        String deviceName = System.getProperty("deviceName", getValueOptional(fileName, "deviceName"));
+        if (deviceName == null || deviceName.isEmpty()) {
+            deviceName = "emulator-5554";
+        }
+
+        // Correct package & activity for Contact App
         String appPackage = System.getProperty("appPackage", "com.sheygam.contactapp");
         String appActivity = System.getProperty("appActivity", "com.sheygam.contactapp.SplashActivity");
 
@@ -63,10 +74,14 @@ public class AppiumConfig {
                 .setDeviceName(deviceName)
                 .setAppPackage(appPackage)
                 .setAppActivity(appActivity)
-                .setNewCommandTimeout(Duration.ofSeconds(180))
-                .setAndroidInstallTimeout(Duration.ofSeconds(120))
-                .setAdbExecTimeout(Duration.ofSeconds(60))
-                .setAppWaitDuration(Duration.ofSeconds(30))
+                .setAppWaitPackage(appPackage)
+                .setAppWaitActivity(appActivity)
+                .setNewCommandTimeout(Duration.ofSeconds(300))
+                .setAndroidInstallTimeout(Duration.ofSeconds(180))
+                .setAdbExecTimeout(Duration.ofSeconds(120))
+                .setAppWaitDuration(Duration.ofSeconds(45))
+                .setUiautomator2ServerInstallTimeout(Duration.ofSeconds(90))
+                .setUiautomator2ServerLaunchTimeout(Duration.ofSeconds(90))
                 .setAutoGrantPermissions(true)
                 .setDisableWindowAnimation(true)
                 .setNoReset(false);

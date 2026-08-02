@@ -26,22 +26,27 @@ public class SplashScreen extends BaseScreen {
     /**
      * Dynamically validates that the specified version text is displayed on the splash screen.
      *
-     * @param text  the expected version text (e.g. "1.0.0")
-     * @param time  timeout in seconds
+     * @param text expected version text (e.g. "1.0.0")
+     * @param time timeout in seconds
      * @return true if the version text is present, false otherwise
      */
     public boolean validateVersionApp(String text, int time) {
-        logger.info("Validating app version text: '{}'", text);
+        String versionToFind = text != null ? text.trim() : "";
+        logger.info("Validating app version text: '{}'", versionToFind);
+
+        // Ensure minimum timeout for slow CI environments
+        int effectiveTimeout = Math.max(time, 15);
+
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(time));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(effectiveTimeout));
             WebElement versionElement = wait.until(
                     ExpectedConditions.visibilityOfElementLocated(
-                            AppiumBy.xpath("//*[contains(@text, '" + text + "')]")
+                            AppiumBy.xpath("//*[contains(@text, '" + versionToFind + "')]")
                     )
             );
             return versionElement.isDisplayed();
         } catch (TimeoutException e) {
-            logger.warn("Version text '{}' not found on splash screen: {}", text, e.getMessage());
+            logger.warn("Version text '{}' not found on splash screen within {} seconds", versionToFind, effectiveTimeout);
             return false;
         }
     }

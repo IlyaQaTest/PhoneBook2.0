@@ -23,7 +23,7 @@ public abstract class BaseScreen {
 
     public BaseScreen(AppiumDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(15)), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(20)), this);
         logger.info("Initialized {} with Appium driver", this.getClass().getSimpleName());
     }
 
@@ -66,12 +66,14 @@ public abstract class BaseScreen {
     }
 
     /**
-     * Clicks on the specified element after waiting for it to be visible.
+     * Clicks on the specified element after waiting for it to be clickable.
      *
      * @param element the WebElement to click
      */
     public void click(WebElement element) {
-        logger.debug("Clicking on element: {}", element);
+        logger.debug("Waiting for element to be clickable before clicking: {}", element);
+        new WebDriverWait(driver, Duration.ofSeconds(20))
+                .until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }
 
