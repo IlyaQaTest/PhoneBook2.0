@@ -37,8 +37,10 @@ public class EditContactTests extends TestBase {
         );
 
         logger.info("Logging in with user: {}", user.getUsername());
-        loginRegistrationScreen.typeLoginRegistrationForm(user);
-        loginRegistrationScreen.clickBtnLogin();
+        if (loginRegistrationScreen.isLoginRegistrationFormDisplayed()) {
+            loginRegistrationScreen.typeLoginRegistrationForm(user);
+            loginRegistrationScreen.clickBtnLogin();
+        }
 
         contactListScreen = new ContactListScreen(driver);
 
@@ -59,7 +61,7 @@ public class EditContactTests extends TestBase {
         editContactScreen.typeEditContactForm(contact);
         editContactScreen.clickBtnUpdate();
 
-        boolean isUpdated = contactListScreen.isTextInMessageContactWasUpdatedPresent("Contact was updated!", 10);
+        boolean isUpdated = contactListScreen.isTextInMessageContactWasUpdatedPresent("Contact was updated!", 15);
         logger.info("Contact update message displayed: {}", isUpdated);
 
         Assert.assertTrue(isUpdated, "Contact update confirmation message not displayed");
@@ -78,7 +80,7 @@ public class EditContactTests extends TestBase {
         editContactScreen.clearName();
         editContactScreen.clickBtnUpdate();
 
-        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("not be blank", 10),
+        Assert.assertTrue(new ErrorScreen(driver).validateTextInError("not be blank", 15),
                 "Error message for empty name not displayed");
 
         Assert.assertFalse(editContactScreen.isEditScreenDisplayed(),

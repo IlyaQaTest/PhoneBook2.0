@@ -3,6 +3,7 @@ package com.phonebook.mobile.screens;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.HidesKeyboard;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +29,10 @@ public class UpdateContactScreen extends BaseScreen {
     /**
      * Clears the name field before entering a new value.
      */
+    @Step("Clear contact name field")
     public void clearName() {
         logger.info("Clearing contact name field");
+        click(inputName);
         inputName.clear();
     }
 
@@ -38,6 +41,7 @@ public class UpdateContactScreen extends BaseScreen {
      *
      * @param name the new contact name
      */
+    @Step("Type new contact name: {name}")
     public void typeName(String name) {
         logger.info("Typing new contact name: {}", name);
         type(inputName, name);
@@ -47,6 +51,7 @@ public class UpdateContactScreen extends BaseScreen {
     /**
      * Clicks the "Update" button to save changes.
      */
+    @Step("Click 'Update' button")
     public void clickUpdateBtn() {
         logger.info("Clicking 'Update' button to save contact changes");
         hideKeyboardSafely();

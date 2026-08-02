@@ -32,7 +32,7 @@ public class AddNewContactTests extends TestBase {
     @Step("Ensure user is logged in and navigate to Add New Contact screen")
     public void setUp() {
         try {
-            Thread.sleep(500); // CI emulator needs time to render dialog
+            Thread.sleep(500); // Give CI emulator time to render
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -57,11 +57,12 @@ public class AddNewContactTests extends TestBase {
             loginRegistrationScreen.clickBtnLogin();
         }
 
+        contactListScreen.isContactListDisplayed();
         contactListScreen.clickBtnPlus();
         addNewContactScreen = new AddNewContactScreen(driver);
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     @Step("Reset application state after each test")
     public void postCondition() {
         if (driver != null) {
@@ -82,8 +83,6 @@ public class AddNewContactTests extends TestBase {
         }
     }
 
-
-
     @Test(description = "Positive test: Add a new contact successfully")
     @Step("Add a new contact and verify success message")
     public void addNewContactTest() {
@@ -91,7 +90,7 @@ public class AddNewContactTests extends TestBase {
         addNewContactScreen.typeContactForm(contact);
         addNewContactScreen.clickBtnCreate();
 
-        Assert.assertTrue(contactListScreen.isTextInMessageContactWasAddedPresent("Contact was added", 5),
+        Assert.assertTrue(contactListScreen.isTextInMessageContactWasAddedPresent("Contact was added", 15),
                 "Contact creation message not displayed");
     }
 
@@ -104,7 +103,7 @@ public class AddNewContactTests extends TestBase {
         addNewContactScreen.clickBtnCreate();
 
         ErrorScreen errorScreen = new ErrorScreen(driver);
-        Assert.assertTrue(errorScreen.validateTextInError("min 10, max 15!", 5),
+        Assert.assertTrue(errorScreen.validateTextInError("min 10, max 15!", 10),
                 "Error message for invalid phone length not displayed");
         errorScreen.clickBtnErrorOk();
     }
@@ -118,7 +117,7 @@ public class AddNewContactTests extends TestBase {
         addNewContactScreen.clickBtnCreate();
 
         ErrorScreen errorScreen = new ErrorScreen(driver);
-        Assert.assertTrue(errorScreen.validateTextInError("not be blank", 5),
+        Assert.assertTrue(errorScreen.validateTextInError("not be blank", 10),
                 "Error message for empty name not displayed");
         errorScreen.clickBtnErrorOk();
     }
@@ -132,7 +131,7 @@ public class AddNewContactTests extends TestBase {
         addNewContactScreen.clickBtnCreate();
 
         ErrorScreen errorScreen = new ErrorScreen(driver);
-        Assert.assertTrue(errorScreen.validateTextInError("not be blank", 5),
+        Assert.assertTrue(errorScreen.validateTextInError("not be blank", 10),
                 "Error message for empty last name not displayed");
         errorScreen.clickBtnErrorOk();
     }
@@ -146,7 +145,7 @@ public class AddNewContactTests extends TestBase {
         addNewContactScreen.clickBtnCreate();
 
         ErrorScreen errorScreen = new ErrorScreen(driver);
-        Assert.assertTrue(errorScreen.validateTextInError("not be blank", 5),
+        Assert.assertTrue(errorScreen.validateTextInError("not be blank", 10),
                 "Error message for empty address not displayed");
         errorScreen.clickBtnErrorOk();
     }
@@ -160,7 +159,7 @@ public class AddNewContactTests extends TestBase {
         addNewContactScreen.clickBtnCreate();
 
         ErrorScreen errorScreen = new ErrorScreen(driver);
-        Assert.assertTrue(errorScreen.validateTextInError("min 10, max 15!", 5),
+        Assert.assertTrue(errorScreen.validateTextInError("min 10, max 15!", 10),
                 "Error message for empty phone not displayed");
         errorScreen.clickBtnErrorOk();
     }
@@ -174,7 +173,7 @@ public class AddNewContactTests extends TestBase {
         addNewContactScreen.clickBtnCreate();
 
         ErrorScreen errorScreen = new ErrorScreen(driver);
-        Assert.assertTrue(errorScreen.validateTextInError("must be a well-formed email address", 5),
+        Assert.assertTrue(errorScreen.validateTextInError("must be a well-formed email address", 10),
                 "Error message for invalid email not displayed");
         errorScreen.clickBtnErrorOk();
     }

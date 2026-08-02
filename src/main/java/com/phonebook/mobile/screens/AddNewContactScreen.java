@@ -4,6 +4,7 @@ import com.phonebook.model.Contact;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.HidesKeyboard;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,7 @@ public class AddNewContactScreen extends BaseScreen {
      *
      * @param contact the contact data to input
      */
+    @Step("Fill Add Contact form with details for: {contact.name}")
     public void typeContactForm(Contact contact) {
         logger.info("Typing contact form for: {}", contact.getName());
         type(inputName, contact.getName());
@@ -64,6 +66,7 @@ public class AddNewContactScreen extends BaseScreen {
     /**
      * Clicks the "Create" button to submit the form.
      */
+    @Step("Click 'Create' button to save new contact")
     public void clickBtnCreate() {
         logger.info("Clicking 'Create' button to add new contact");
         hideKeyboardSafely();

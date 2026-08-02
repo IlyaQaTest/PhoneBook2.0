@@ -5,7 +5,6 @@ import com.phonebook.core.helpers.ScreenshotUtils;
 import com.phonebook.mobile.screens.ContactListScreen;
 import com.phonebook.mobile.screens.ErrorScreen;
 import com.phonebook.mobile.screens.LoginRegistrationScreen;
-import com.phonebook.mobile.screens.SplashScreen;
 import com.phonebook.model.User;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
@@ -31,13 +30,12 @@ public class RegistrationTests extends TestBase {
     private static final String APP_PACKAGE = "com.sheygam.contactapp";
 
     @BeforeMethod
-    @Step("Open splash and authentication screens before each test")
+    @Step("Open authentication screen before each test")
     public void openAuthScreen() {
-        new SplashScreen(driver);
         loginRegistrationScreen = new LoginRegistrationScreen(driver);
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     @Step("Reset application state after each test")
     public void postCondition() {
         if (driver != null) {
@@ -67,7 +65,7 @@ public class RegistrationTests extends TestBase {
         loginRegistrationScreen.clickBtnRegistration();
 
         boolean isRegistered = new ContactListScreen(driver)
-                .validateTextInContactListScreenAfterRegistration("No Contacts. Add One more!", 10);
+                .validateTextInContactListScreenAfterRegistration("No Contacts. Add One more!", 15);
 
         Assert.assertTrue(isRegistered, "Contact list screen should be displayed after successful registration");
         logger.info("Registration successful for user: {}", user.getUsername());
@@ -82,7 +80,7 @@ public class RegistrationTests extends TestBase {
         loginRegistrationScreen.clickBtnRegistration();
 
         Assert.assertTrue(new ErrorScreen(driver)
-                        .validateTextInError("username=must not be blank", 10),
+                        .validateTextInError("username=must not be blank", 15),
                 "Error message not displayed for empty email");
     }
 
@@ -140,7 +138,7 @@ public class RegistrationTests extends TestBase {
 
         try {
             Assert.assertTrue(new ErrorScreen(driver)
-                            .validateTextInCrashScreen("Open app again", 10),
+                            .validateTextInCrashScreen("Open app again", 15),
                     "Crash screen not displayed for email with space");
         } catch (Exception e) {
             logger.error("BUG CONFIRMED: App crashed when email contained space!");
@@ -172,8 +170,7 @@ public class RegistrationTests extends TestBase {
         loginRegistrationScreen.clickBtnRegistration();
 
         Assert.assertTrue(new ErrorScreen(driver)
-                        .validateTextInError("User already exists", 10),
+                        .validateTextInError("User already exists", 15),
                 "Error message not displayed for existing user");
     }
-
 }

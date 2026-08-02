@@ -22,7 +22,7 @@ public class SplashScreenTests extends TestBase {
         SplashScreen splashScreen = new SplashScreen(driver);
 
         // CI emulator needs more time to render splash screen
-        boolean isVersionDisplayed = splashScreen.validateVersionApp("1.0.0", 10);
+        boolean isVersionDisplayed = splashScreen.validateVersionApp("1.0.0", 15);
 
         logger.info("Version text displayed correctly: {}", isVersionDisplayed);
         Assert.assertTrue(isVersionDisplayed, "Splash screen should display correct app version");

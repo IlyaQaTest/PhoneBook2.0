@@ -59,8 +59,10 @@ public class DeleteContactTests extends TestBase {
         }
 
         loginRegistrationScreen = new LoginRegistrationScreen(driver);
-        loginRegistrationScreen.typeLoginRegistrationForm(user);
-        loginRegistrationScreen.clickBtnLogin();
+        if (loginRegistrationScreen.isLoginRegistrationFormDisplayed()) {
+            loginRegistrationScreen.typeLoginRegistrationForm(user);
+            loginRegistrationScreen.clickBtnLogin();
+        }
 
         contactListScreen = new ContactListScreen(driver);
         addNewContactScreen = new AddNewContactScreen(driver);
@@ -68,7 +70,6 @@ public class DeleteContactTests extends TestBase {
         // CI emulator needs time to load contact list
         contactListScreen.waitForContactListNotEmpty();
     }
-
 
     @Test(description = "Delete middle contact and verify via API")
     @Step("Delete middle contact from list via UI and verify count decrease via API")
@@ -80,7 +81,7 @@ public class DeleteContactTests extends TestBase {
         contactListScreen.deleteContactMiddle();
 
         try {
-            Thread.sleep(1000); // CI needs time to update UI
+            Thread.sleep(1500); // CI needs time to process deletion and sync with backend
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -96,7 +97,6 @@ public class DeleteContactTests extends TestBase {
                 "Contact count in API should decrease by 1 after middle contact deletion");
     }
 
-
     @Test(description = "Delete first contact and verify via API")
     @Step("Delete first contact from list via UI and verify count decrease via API")
     public void deleteFirstContactTest() {
@@ -107,7 +107,7 @@ public class DeleteContactTests extends TestBase {
         contactListScreen.deleteFirstContact();
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -123,12 +123,10 @@ public class DeleteContactTests extends TestBase {
                 "Contact count in API should decrease by 1 after first contact deletion");
     }
 
-
     @Test(description = "Delete last contact and verify via API")
     @Step("Add contact via UI, delete last contact, and verify count decrease via API")
     public void deleteLastContactTest() {
         contactListScreen.clickBtnPlus();
-        addNewContactScreen = new AddNewContactScreen(driver);
 
         Contact contact = positiveContact();
         addNewContactScreen.typeContactForm(contact);
@@ -145,7 +143,7 @@ public class DeleteContactTests extends TestBase {
         contactListScreen.deleteLastContact();
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

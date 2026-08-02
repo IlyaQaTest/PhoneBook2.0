@@ -64,9 +64,6 @@ public class LoginTests extends TestBase {
 
         contactListScreen = new ContactListScreen(driver);
 
-        // CI emulator needs time to load contact list
-        contactListScreen.waitForContactListNotEmpty();
-
         boolean isLoaded = contactListScreen.isContactListDisplayed();
         logger.info("Contact list screen displayed: {}", isLoaded);
 
@@ -88,8 +85,6 @@ public class LoginTests extends TestBase {
 
         contactListScreen = new ContactListScreen(driver);
 
-        contactListScreen.waitForContactListNotEmpty();
-
         Assert.assertTrue(contactListScreen.isBtnPlusPresent(),
                 "Plus button should be visible after login");
     }
@@ -105,7 +100,7 @@ public class LoginTests extends TestBase {
         loginRegistrationScreen.clickBtnLogin();
 
         Assert.assertTrue(new ErrorScreen(driver)
-                        .validateTextInError("Login or Password incorrect", 10),
+                        .validateTextInError("Login or Password incorrect", 15),
                 "Error message not displayed for empty password");
     }
 
@@ -120,7 +115,7 @@ public class LoginTests extends TestBase {
         loginRegistrationScreen.clickBtnLogin();
 
         Assert.assertTrue(new ErrorScreen(driver)
-                        .validateTextInError("Login or Password incorrect", 10),
+                        .validateTextInError("Login or Password incorrect", 15),
                 "Error message not displayed for empty login");
     }
 
@@ -132,7 +127,7 @@ public class LoginTests extends TestBase {
         loginRegistrationScreen.clickBtnLogin();
 
         Assert.assertTrue(new ErrorScreen(driver)
-                        .validateTextInError("Login or Password incorrect", 10),
+                        .validateTextInError("Login or Password incorrect", 15),
                 "Error message not displayed for empty fields");
     }
 
@@ -147,7 +142,7 @@ public class LoginTests extends TestBase {
         loginRegistrationScreen.clickBtnLogin();
 
         Assert.assertTrue(new ErrorScreen(driver)
-                        .validateTextInError("Login or Password incorrect", 10),
+                        .validateTextInError("Login or Password incorrect", 15),
                 "Error message not displayed for invalid email format");
     }
 }

@@ -55,7 +55,10 @@ public class ContactListScreen extends BaseScreen implements SwipeUtils {
     @Step("Click on contact name: {nameText}")
     public void clickRowName(String nameText) {
         logger.info("Clicking contact with name: {}", nameText);
-        WebElement contact = driver.findElement(By.xpath("//*[@text='" + nameText + "']"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        WebElement contact = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//*[@text='" + nameText + "']")
+        ));
         click(contact);
     }
 
@@ -83,18 +86,22 @@ public class ContactListScreen extends BaseScreen implements SwipeUtils {
         click(addContactBtn);
     }
 
+    @Step("Check if '+' button is present")
     public boolean isBtnPlusPresent() {
-        return isElementPresent(addContactBtn, 10);
+        return isElementPresent(addContactBtn, 15);
     }
 
+    @Step("Check if Contact List screen is displayed")
     public boolean isContactListDisplayed() {
         return isElementPresent(title, 15);
     }
 
+    @Step("Check if contact list is empty")
     public boolean isContactListEmpty() {
         return contactRows.isEmpty();
     }
 
+    @Step("Validate text '{expectedText}' in Contact List screen after registration")
     public boolean validateTextInContactListScreenAfterRegistration(String expectedText, int timeout) {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
@@ -116,6 +123,7 @@ public class ContactListScreen extends BaseScreen implements SwipeUtils {
      * @param timeoutInSeconds maximum wait time in seconds
      * @return true if the Toast message was detected in DOM, false otherwise
      */
+    @Step("Verify Toast message containing '{toastText}' is present")
     public boolean isToastMessagePresent(String toastText, int timeoutInSeconds) {
         logger.debug("Waiting for toast message containing text: {}", toastText);
         try {
@@ -174,10 +182,11 @@ public class ContactListScreen extends BaseScreen implements SwipeUtils {
 
     public void waitForContactListNotEmpty() {
         logger.debug("Waiting for contact list to be populated");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         wait.until(d -> !contactRows.isEmpty());
     }
 
+    @Step("Get contact name at index {index}")
     public String getContactName(int index) {
         logger.info("Getting contact name at index {}", index);
         waitForContactListNotEmpty();

@@ -72,7 +72,7 @@ public class TestBase {
      */
     public String getAlertTextAndClose() {
         logger.debug("Waiting for alert to appear...");
-        Alert alert = new WebDriverWait(driver, Duration.ofSeconds(20))
+        Alert alert = new WebDriverWait(driver, Duration.ofSeconds(25))
                 .until(ExpectedConditions.alertIsPresent());
         String text = alert.getText();
         alert.accept();

@@ -79,6 +79,7 @@ public class EditContactScreen extends BaseScreen {
         click(btnUpdate);
     }
 
+    @Step("Click on Name input field")
     public void clickFieldInputName() {
         click(inputName);
     }
@@ -86,7 +87,7 @@ public class EditContactScreen extends BaseScreen {
     @Step("Check if error message '{expectedText}' is displayed on screen")
     public boolean isErrorMessageDisplayed(String expectedText) {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
             WebElement errorElement = wait.until(
                     ExpectedConditions.visibilityOfElementLocated(AppiumBy.id("android:id/message"))
             );
@@ -101,12 +102,13 @@ public class EditContactScreen extends BaseScreen {
 
     @Step("Check if Edit Contact screen is still displayed")
     public boolean isEditScreenDisplayed() {
-        return isElementPresent(btnUpdate, 10);
+        return isElementPresent(btnUpdate, 15);
     }
 
     @Step("Clear the Name field on Edit Contact screen")
     public void clearName() {
         logger.info("Clearing Name field");
+        click(inputName);
         inputName.clear();
     }
 

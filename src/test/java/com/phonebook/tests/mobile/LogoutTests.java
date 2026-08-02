@@ -28,7 +28,7 @@ public class LogoutTests extends TestBase {
         loginRegistrationScreen = new LoginRegistrationScreen(driver);
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     @Step("Reset application state after each test")
     public void postCondition() {
         if (driver != null) {
@@ -60,13 +60,12 @@ public class LogoutTests extends TestBase {
                 getProperty("base.properties", "password")
         );
 
-        loginRegistrationScreen.typeLoginRegistrationForm(user);
-        loginRegistrationScreen.clickBtnLogin();
+        if (loginRegistrationScreen.isLoginRegistrationFormDisplayed()) {
+            loginRegistrationScreen.typeLoginRegistrationForm(user);
+            loginRegistrationScreen.clickBtnLogin();
+        }
 
         contactListScreen = new ContactListScreen(driver);
-
-        // CI emulator needs time to load contact list
-        contactListScreen.waitForContactListNotEmpty();
 
         boolean isLoaded = contactListScreen.isContactListDisplayed();
         logger.info("Contact list screen displayed: {}", isLoaded);
