@@ -29,9 +29,13 @@ public class AppiumConfig {
      * @return an initialized AndroidDriver instance
      */
     public static AndroidDriver createAppiumDriver(String fileName) {
-        String appiumUrl = getValue(fileName, "appiumUrl");
 
-        // Normalize URL for Appium 2.x / 3.x compatibility
+        // Normalize Appium URL
+        String appiumUrl = getValueOptional(fileName, "appiumUrl");
+        if (appiumUrl == null || appiumUrl.isEmpty()) {
+            appiumUrl = System.getProperty("appiumUrl", "http://127.0.0.1:4723/");
+        }
+
         if (appiumUrl.endsWith("/wd/hub") || appiumUrl.endsWith("/wd/hub/")) {
             appiumUrl = appiumUrl.replaceAll("/wd/hub/?$", "");
         }
@@ -39,14 +43,19 @@ public class AppiumConfig {
             appiumUrl = appiumUrl + "/";
         }
 
-        String platformName = getValue(fileName, "os");
-        String automationName = getValue(fileName, "automationName");
-        String deviceName = getValue(fileName, "deviceName");
-        String appPackage = getValue(fileName, "appPackage");
-        String appActivity = getValue(fileName, "appActivity");
-        String appPath = getValueOptional(fileName, "appPath");
-
         logger.info("Connecting to Appium server at: {}", appiumUrl);
+
+        // Core capabilities
+        String platformName = System.getProperty("platformName", getValue(fileName, "os"));
+        String automationName = System.getProperty("automationName", getValue(fileName, "automationName"));
+        String deviceName = System.getProperty("deviceName", getValue(fileName, "deviceName"));
+
+        // FIXED: Correct package & activity for Contact App
+        String appPackage = System.getProperty("appPackage", "com.sheygam.contactapp");
+        String appActivity = System.getProperty("appActivity", "com.sheygam.contactapp.SplashActivity");
+
+        // APK path (CI or local)
+        String appPath = System.getProperty("appPath", getValueOptional(fileName, "appPath"));
 
         UiAutomator2Options options = new UiAutomator2Options()
                 .setPlatformName(platformName)
@@ -62,7 +71,7 @@ public class AppiumConfig {
                 .setDisableWindowAnimation(true)
                 .setNoReset(false);
 
-        // Resolve absolute path for APK file in CI/CD environment
+        // Resolve APK path
         if (appPath != null && !appPath.isEmpty()) {
             File apkFile = new File(appPath);
             String absoluteAppPath = apkFile.isAbsolute()

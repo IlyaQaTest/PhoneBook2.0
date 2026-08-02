@@ -16,6 +16,10 @@ import org.testng.annotations.BeforeMethod;
 
 import java.time.Duration;
 
+/**
+ * Base class for all mobile tests.
+ * Initializes Appium driver and screen objects.
+ */
 public class TestBase {
 
     protected static final Logger logger = LoggerFactory.getLogger(TestBase.class);
@@ -29,20 +33,30 @@ public class TestBase {
     public void setup() {
         logger.info("Initializing Appium driver...");
 
+        // Default config file for local and CI runs
         String configFile = System.getProperty("configFile", "pixel.properties");
-        driver = AppiumConfig.createAppiumDriver(configFile);
+
+        try {
+            driver = AppiumConfig.createAppiumDriver(configFile);
+        } catch (Exception e) {
+            logger.error("Failed to initialize Appium driver: {}", e.getMessage());
+            throw e;
+        }
 
         // Increased timeout for slow CI emulator
-        wait = new WebDriverWait(driver, Duration.ofSeconds(25));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
+        // Initialize screen objects
         loginRegistrationScreen = new LoginRegistrationScreen(driver);
         contactListScreen = new ContactListScreen(driver);
+
+        logger.info("Appium driver initialized successfully.");
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
         if (driver != null) {
-            logger.info("Closing Appium session and quitting driver...");
+            logger.info("Closing Appium session...");
             try {
                 driver.quit();
             } catch (Exception e) {
@@ -53,6 +67,9 @@ public class TestBase {
         }
     }
 
+    /**
+     * Waits for an alert, returns its text, and closes it.
+     */
     public String getAlertTextAndClose() {
         logger.debug("Waiting for alert to appear...");
         Alert alert = new WebDriverWait(driver, Duration.ofSeconds(20))
@@ -63,6 +80,9 @@ public class TestBase {
         return text;
     }
 
+    /**
+     * Checks if a Toast message containing the given text is present.
+     */
     public boolean isToastPresent(String toastText, int timeout) {
         try {
             logger.info("Waiting for Toast message containing: '{}'", toastText);
@@ -72,7 +92,7 @@ public class TestBase {
             ));
             return toastElement != null;
         } catch (Exception e) {
-            logger.warn("Toast message with text '{}' was not found within {} seconds", toastText, timeout);
+            logger.warn("Toast message '{}' not found within {} seconds", toastText, timeout);
             return false;
         }
     }

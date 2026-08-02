@@ -78,11 +78,16 @@ jobs:
             echo "Waiting for emulator to stabilize..."
             sleep 25
 
-            echo "Installing APK..."
-            adb install -r src/test/resources/phonebook.apk
+            echo "Installing Contact App APK..."
+            adb install -r src/test/resources/contact_app.apk
 
             echo "Running mobile tests..."
-            ./gradlew test --tests "com.phonebook.tests.mobile.**" -DappiumUrl="http://127.0.0.1:4723/" -DappPath="src/test/resources/phonebook.apk"
+            ./gradlew test \
+              --tests "com.phonebook.tests.mobile.**" \
+              -DappiumUrl="http://127.0.0.1:4723/" \
+              -DappPath="src/test/resources/contact_app.apk" \
+              -DappPackage="com.sheygam.contactapp" \
+              -DappActivity="com.sheygam.contactapp.SplashActivity"
 
       - name: Generate Allure Report
         if: always()
