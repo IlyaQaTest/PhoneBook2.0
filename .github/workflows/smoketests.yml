@@ -82,8 +82,7 @@ jobs:
             adb install -r src/test/resources/contact_app.apk
 
             echo "Running mobile tests..."
-            ./gradlew test \
-              --tests "com.phonebook.tests.mobile.**" \
+            ./gradlew test --tests "com.phonebook.tests.mobile.**" \
               -DappiumUrl="http://127.0.0.1:4723/" \
               -DappPath="src/test/resources/contact_app.apk" \
               -DappPackage="com.sheygam.contactapp" \
