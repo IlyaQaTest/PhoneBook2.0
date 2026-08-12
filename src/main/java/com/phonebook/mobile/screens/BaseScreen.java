@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 
+import com.phonebook.mobile.config.MobileTimeouts;
+
 /**
  * Base class for all mobile screens.
  * Provides common initialization and utility methods for element interactions.
@@ -23,7 +25,7 @@ public abstract class BaseScreen {
 
     public BaseScreen(AppiumDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(20)), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(MobileTimeouts.DEFAULT)), this);
         logger.info("Initialized {} with Appium driver", this.getClass().getSimpleName());
     }
 
@@ -72,7 +74,7 @@ public abstract class BaseScreen {
      */
     public void click(WebElement element) {
         logger.debug("Waiting for element to be clickable before clicking: {}", element);
-        new WebDriverWait(driver, Duration.ofSeconds(20))
+        new WebDriverWait(driver, Duration.ofSeconds(MobileTimeouts.CLICK))
                 .until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }

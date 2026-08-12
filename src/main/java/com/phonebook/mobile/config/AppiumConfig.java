@@ -30,10 +30,10 @@ public class AppiumConfig {
      */
     public static AndroidDriver createAppiumDriver(String fileName) {
 
-        // Normalize Appium URL
-        String appiumUrl = getValueOptional(fileName, "appiumUrl");
+        // Normalize Appium URL: prefer system property over file value
+        String appiumUrl = System.getProperty("appiumUrl", getValueOptional(fileName, "appiumUrl"));
         if (appiumUrl == null || appiumUrl.isEmpty()) {
-            appiumUrl = System.getProperty("appiumUrl", "http://127.0.0.1:4723/");
+            appiumUrl = "http://127.0.0.1:4723/";
         }
 
         if (appiumUrl.endsWith("/wd/hub") || appiumUrl.endsWith("/wd/hub/")) {
@@ -76,25 +76,29 @@ public class AppiumConfig {
                 .setAppActivity(appActivity)
                 .setAppWaitPackage(appPackage)
                 .setAppWaitActivity(appActivity)
-                .setNewCommandTimeout(Duration.ofSeconds(300))
-                .setAndroidInstallTimeout(Duration.ofSeconds(180))
-                .setAdbExecTimeout(Duration.ofSeconds(120))
-                .setAppWaitDuration(Duration.ofSeconds(45))
-                .setUiautomator2ServerInstallTimeout(Duration.ofSeconds(90))
-                .setUiautomator2ServerLaunchTimeout(Duration.ofSeconds(90))
+                .setNewCommandTimeout(Duration.ofSeconds(MobileTimeouts.LONG))
+                .setAndroidInstallTimeout(Duration.ofSeconds(MobileTimeouts.CI_LONG))
+                .setAdbExecTimeout(Duration.ofSeconds(MobileTimeouts.CI_LONG))
+                .setAppWaitDuration(Duration.ofSeconds(MobileTimeouts.DEFAULT))
+                .setUiautomator2ServerInstallTimeout(Duration.ofSeconds(MobileTimeouts.CI_LONG))
+                .setUiautomator2ServerLaunchTimeout(Duration.ofSeconds(MobileTimeouts.CI_LONG))
                 .setAutoGrantPermissions(true)
                 .setDisableWindowAnimation(true)
                 .setNoReset(false);
 
-        // Resolve APK path
+        // Resolve APK path — only set app if file exists
         if (appPath != null && !appPath.isEmpty()) {
             File apkFile = new File(appPath);
             String absoluteAppPath = apkFile.isAbsolute()
                     ? apkFile.getAbsolutePath()
                     : Paths.get(appPath).toAbsolutePath().toString();
 
-            logger.info("Setting APK path: {}", absoluteAppPath);
-            options.setApp(absoluteAppPath);
+            if (new File(absoluteAppPath).exists()) {
+                logger.info("Setting APK path: {}", absoluteAppPath);
+                options.setApp(absoluteAppPath);
+            } else {
+                logger.warn("Specified appPath does not exist: {}. Will expect appPackage to be installed on device.", absoluteAppPath);
+            }
         } else {
             logger.warn("No appPath specified. Expecting appPackage to be already installed on the device.");
         }

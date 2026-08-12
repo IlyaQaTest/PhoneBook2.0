@@ -16,6 +16,8 @@ import org.testng.annotations.BeforeMethod;
 
 import java.time.Duration;
 
+import com.phonebook.mobile.config.MobileTimeouts;
+
 /**
  * Base class for all mobile tests.
  * Initializes Appium driver and screen objects.
@@ -44,7 +46,7 @@ public class TestBase {
         }
 
         // Increased timeout for slow CI emulator
-        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(MobileTimeouts.LONG));
 
         // Initialize screen objects
         loginRegistrationScreen = new LoginRegistrationScreen(driver);
@@ -72,7 +74,7 @@ public class TestBase {
      */
     public String getAlertTextAndClose() {
         logger.debug("Waiting for alert to appear...");
-        Alert alert = new WebDriverWait(driver, Duration.ofSeconds(25))
+        Alert alert = new WebDriverWait(driver, Duration.ofSeconds(MobileTimeouts.CLICK))
                 .until(ExpectedConditions.alertIsPresent());
         String text = alert.getText();
         alert.accept();
@@ -83,10 +85,10 @@ public class TestBase {
     /**
      * Checks if a Toast message containing the given text is present.
      */
-    public boolean isToastPresent(String toastText, int timeout) {
+    public boolean waitForToast(String toastText, int timeout) {
         try {
-            logger.info("Waiting for Toast message containing: '{}'", toastText);
-            WebDriverWait customWait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+            logger.info("Waiting for Toast message containing: '{}', timeout: {}s", toastText, timeout);
+            WebDriverWait customWait = new WebDriverWait(driver, Duration.ofSeconds(Math.max(timeout, (int)MobileTimeouts.SHORT)));
             WebElement toastElement = customWait.until(ExpectedConditions.presenceOfElementLocated(
                     By.xpath("//*[contains(@text,'" + toastText + "')]")
             ));
@@ -95,5 +97,12 @@ public class TestBase {
             logger.warn("Toast message '{}' not found within {} seconds", toastText, timeout);
             return false;
         }
+    }
+
+    /**
+     * Backwards-compatible wrapper
+     */
+    public boolean isToastPresent(String toastText, int timeout) {
+        return waitForToast(toastText, timeout);
     }
 }
