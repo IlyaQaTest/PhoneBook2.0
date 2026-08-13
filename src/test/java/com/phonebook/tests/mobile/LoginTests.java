@@ -18,7 +18,7 @@ import static com.phonebook.core.config.PropertiesReader.getProperty;
  * Mobile tests for user login functionality.
  * Includes positive and negative scenarios for authentication.
  */
-@org.testng.annotations.Test(enabled = false)
+@org.testng.annotations.Test(enabled = true)
 public class LoginTests extends TestBase {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginTests.class);
@@ -50,7 +50,7 @@ public class LoginTests extends TestBase {
         }
     }
 
-    @Test(enabled = false, description = "Positive test: Successful login and transition to contact list screen")
+    @Test(enabled = true, description = "Positive test: Successful login and transition to contact list screen")
     @Step("Login with valid credentials and verify contact list is displayed")
     public void loginPositiveTest() {
         logger.info("Starting test: loginPositiveTest");

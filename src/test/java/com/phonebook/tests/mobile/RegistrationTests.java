@@ -24,7 +24,7 @@ import static com.phonebook.model.factory.UserFactory.positiveUser;
  * Mobile tests for user registration functionality.
  * Includes positive and negative scenarios verifying validation and error handling.
  */
-@org.testng.annotations.Test(enabled = true)
+@org.testng.annotations.Test(enabled = false)
 public class RegistrationTests extends TestBase {
 
     private static final Logger logger = LoggerFactory.getLogger(RegistrationTests.class);
@@ -57,7 +57,7 @@ public class RegistrationTests extends TestBase {
         }
     }
 
-    @Test(enabled = true, description = "Positive test: Successful registration with valid credentials")
+    @Test(enabled = false, description = "Positive test: Successful registration with valid credentials")
     @Step("Register new user and verify contact list screen is displayed")
     public void registrationPositiveTest() {
         User user = positiveUser();

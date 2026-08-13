@@ -1,0 +1,108 @@
+name: Mobile Tests (mobile-ci)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ mobile-ci ]
+
+jobs:
+  mobile-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: Root1234
+          MYSQL_DATABASE: phonebook
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Install Appium Server & Driver
+        run: |
+          npm install -g appium
+          appium driver install uiautomator2
+
+      - name: Start emulator, wait for boot, install APK and run mobile tests
+        uses: ReactiveCircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          system-image-api-level: 29
+          target: default
+          arch: x86_64
+          profile: pixel
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: |
+            echo "Starting Appium..."
+            nohup appium --log-timestamp --log-no-colors > appium.log 2>&1 &
+
+            echo "Waiting for Appium server..."
+            timeout 60 sh -c 'until curl -s http://127.0.0.1:4723/status; do sleep 3; done'
+
+            echo "Ensure adb server is fresh..."
+            adb kill-server || true
+            adb start-server || true
+            echo "Connected devices now:"
+            adb devices
+
+            echo "Waiting for emulator to be listed and fully booted (timeout 300s)..."
+            SECONDS=0
+            TIMEOUT=300
+            until adb devices | grep -E '^emulator-5554' >/dev/null 2>&1 && adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | grep -m1 '1' >/dev/null 2>&1; do
+              if [ $SECONDS -ge $TIMEOUT ]; then
+                echo "ERROR: emulator did not become ready within $TIMEOUT seconds"
+                adb devices
+                adb -s emulator-5554 logcat -d > emulator_logcat.txt || true
+                adb -s emulator-5554 shell screencap -p /sdcard/screen.png || true
+                adb -s emulator-5554 pull /sdcard/screen.png ./emulator_screen.png || true
+                ls -la emulator_logcat.txt emulator_screen.png || true
+                exit 1
+              fi
+              echo "Waiting for emulator to boot... ($SECONDS s)"
+              sleep 5
+            done
+
+            echo "Installing Contact App APK..."
+            adb -s emulator-5554 install -r src/test/resources/contact_app.apk || true
+
+            echo "Verify installed package:"
+            adb -s emulator-5554 shell pm list packages | grep com.sheygam.contactapp || true
+
+            echo "Running mobile tests..."
+            ./gradlew test --tests "com.phonebook.tests.mobile.**" -DappiumUrl="http://127.0.0.1:4723/" -DappPath="src/test/resources/contact_app.apk" -DappPackage="com.sheygam.contactapp" -DappActivity="com.sheygam.contactapp.MainActivity" --stacktrace
+
+      - name: Generate Allure Report
+        if: always()
+        run: ./gradlew allureReport --continue
+
+      - name: Upload Test Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phonebook-mobile-test-results
+          path: |
+            build/reports/tests/test/
+            build/reports/allure-report/
+            appium.log
+            emulator_logcat.txt
+            emulator_screen.png
