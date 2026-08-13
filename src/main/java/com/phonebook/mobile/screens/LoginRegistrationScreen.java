@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.phonebook.mobile.config.MobileTimeouts;
+
 /**
  * Represents the login and registration screen in the mobile application.
  * Provides methods to enter user credentials and perform authentication actions.
@@ -36,6 +38,14 @@ public class LoginRegistrationScreen extends BaseScreen {
     private WebElement authTitle;
 
     /**
+     * Ensure that authentication screen is visible (inputEmail present).
+     * Returns true if visible within MobileTimeouts.LONG seconds.
+     */
+    public boolean ensureAuthScreenVisible() {
+        return isElementPresent(inputEmail, (int) MobileTimeouts.LONG);
+    }
+
+    /**
      * Checks if the authentication title is displayed on the screen.
      *
      * @return true if the title is visible, false otherwise
@@ -50,6 +60,10 @@ public class LoginRegistrationScreen extends BaseScreen {
      * @param user user object containing username and password
      */
     public void typeLoginRegistrationForm(User user) {
+        if (!ensureAuthScreenVisible()) {
+            logger.warn("Authentication screen is not visible — cannot type credentials for user: {}", user.getUsername());
+            throw new IllegalStateException("Authentication screen is not visible — check app state");
+        }
         logger.info("Entering user credentials for: {}", user.getUsername());
         type(inputEmail, user.getUsername());
         type(inputPassword, user.getPassword());

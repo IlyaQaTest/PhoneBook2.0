@@ -31,6 +31,8 @@ public class TestBase {
     protected LoginRegistrationScreen loginRegistrationScreen;
     protected ContactListScreen contactListScreen;
 
+    protected final String APP_PACKAGE = "com.sheygam.contactapp";
+
     @BeforeMethod
     public void setup() {
         logger.info("Initializing Appium driver...");
@@ -52,7 +54,38 @@ public class TestBase {
         loginRegistrationScreen = new LoginRegistrationScreen(driver);
         contactListScreen = new ContactListScreen(driver);
 
+        // Ensure authentication screen is visible or try restart
+        ensureAuthScreenOrRestart();
+
         logger.info("Appium driver initialized successfully.");
+    }
+
+    protected void ensureAuthScreenOrRestart() {
+        try {
+            if (loginRegistrationScreen == null || !loginRegistrationScreen.ensureAuthScreenVisible()) {
+                logger.warn("Auth screen not visible — attempting app restart");
+                try {
+                    driver.terminateApp(APP_PACKAGE);
+                    driver.activateApp(APP_PACKAGE);
+                } catch (Exception e) {
+                    logger.warn("Restart app failed: {}", e.getMessage());
+                }
+
+                // Small pause after restart to let UI settle
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                }
+
+                // If still not visible, log and continue; tests will assert later
+                if (!loginRegistrationScreen.ensureAuthScreenVisible()) {
+                    logger.warn("Auth screen still not visible after restart");
+                }
+            }
+        } catch (Exception e) {
+            logger.warn("Error while ensuring auth screen: {}", e.getMessage());
+        }
     }
 
     @AfterMethod(alwaysRun = true)
